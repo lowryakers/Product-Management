@@ -1,0 +1,66 @@
+issue_id,severity,area,sku,flavor,issue,detail
+ISS-0001,Critical,PO,PCCM-CS-02,Cinnamon Swirl,Line is marked as excluded but is still counted in the PO total,"PO 43026 — 10,000 u / $4,340.00 — note: ""leaving off this PO"""
+ISS-0002,Critical,PO,PCCM-PS-03,Pumpkin Spice,Line is marked as excluded but is still counted in the PO total,"PO 43026 — 10,000 u / $4,340.00 — note: ""leaving off this PO"""
+ISS-0003,Critical,PO,PCM-CH,Chocolate,Line is marked as excluded but is still counted in the PO total,"PO 43026 — 10,000 u / $4,340.00 — note: ""leaving off this PO"""
+ISS-0004,Critical,PO,PPM-BM,Buttermilk,Line is marked as excluded but is still counted in the PO total,"PO 43026 — 10,000 u / $4,340.00 — note: ""leaving off this PO"""
+ISS-0005,Critical,PO,PPSS-BB,Brownie Batter,Line is marked as excluded but is still counted in the PO total,"PO 42826 — 25,000 u / $1,872.50 — note: ""moved quantity to other flavors"""
+ISS-0006,Critical,PO,PPSS-CM,Cafe Mocha,Line is marked as excluded but is still counted in the PO total,"PO 42826 — 25,000 u / $1,872.50 — note: ""moved quantity to other flavors"""
+ISS-0007,Critical,PO,PPSS-SC,Salted Caramel,Line is marked as excluded but is still counted in the PO total,"PO 42826 — 25,000 u / $1,872.50 — note: ""moved quantity to other flavors"""
+ISS-0008,Critical,PO,PPSS-VC,Vanilla Cone,Line is marked as excluded but is still counted in the PO total,"PO 42826 — 25,000 u / $1,872.50 — note: ""moved quantity to other flavors"""
+ISS-0009,High,Artwork,DR-SP,Daily Recharge Stick,Stick pack has no eyemark colour specified,bagger photo-eye cannot register without it
+ISS-0010,High,Colour,PP-BF-21,Bananas Foster Whey Protein Pouch,Invalid hex value — cannot be rendered,slot 3: 'HEX E613B24'
+ISS-0011,High,Colour,PP-CM-02,Chocolate Mousse Whey Protein Pouch,Invalid hex value — cannot be rendered,slot 1: 'HEX 4E2CID'
+ISS-0012,High,Colour,PP-RC-12,Raspberry Cheesecake Whey Protein Pouch,Invalid hex value — cannot be rendered,slot 3: 'HEX F43BF'
+ISS-0013,High,Colour,PSP-BF,Bananas Foster Whey Protein Stick,Invalid hex value — cannot be rendered,slot 3: 'HEX E613B24'
+ISS-0014,High,Colour,PSP-CM,Chocolate Mousse Whey Protein Stick,Invalid hex value — cannot be rendered,slot 1: 'HEX 4E2CID'
+ISS-0015,High,Colour,PSP-RC,Raspberry Cheesecake Whey Protein Stick,Invalid hex value — cannot be rendered,slot 3: 'HEX F43BF'
+ISS-0016,High,PO,,,PO number in the file name does not match the number inside the sheet,"PO_film.xlsx -> filename says 41626, sheet says 42826"
+ISS-0017,High,PO,,,PO number in the file name does not match the number inside the sheet,"PO_protein_pouches.xlsx -> filename says 42926, sheet says 41726"
+ISS-0018,High,SKU,42224277651538,Cinnamon Sugar Beef Protein Pouch,"SKU column holds a Shopify variant ID, not a SKU code",value '42224277651538' is 14 digits; needs a real code (suggest HBF-* to match the beef sticks)
+ISS-0019,High,SKU,42224277684306,Double Chocolate Beef Protein Pouch,"SKU column holds a Shopify variant ID, not a SKU code",value '42224277684306' is 14 digits; needs a real code (suggest HBF-* to match the beef sticks)
+ISS-0020,High,SKU,42224277717074,Frosted Vanilla Beef Protein Pouch,"SKU column holds a Shopify variant ID, not a SKU code",value '42224277717074' is 14 digits; needs a real code (suggest HBF-* to match the beef sticks)
+ISS-0021,High,SKU,42224277749842,Toffee Cream Beef Protein Pouch,"SKU column holds a Shopify variant ID, not a SKU code",value '42224277749842' is 14 digits; needs a real code (suggest HBF-* to match the beef sticks)
+ISS-0022,High,SKU,PP-CM-02,Chocolate Mousse Whey Protein Pouch,SKU stem 'PP-CM' is reused across different flavours,PP-CM-02=Chocolate Mousse; PP-CM-23=Café Mocha
+ISS-0023,High,SKU,PP-CM-23,Café Mocha Plant Protein Pouch,SKU stem 'PP-CM' is reused across different flavours,PP-CM-02=Chocolate Mousse; PP-CM-23=Café Mocha
+ISS-0024,High,SKU,PP-SC-18,Sugar Cookie Whey Protein Pouch,SKU stem 'PP-SC' is reused across different flavours,PP-SC-18=Sugar Cookie; PP-SC-22=Salted Caramel
+ISS-0025,High,SKU,PP-SC-22,Salted Caramel Plant Protein Pouch,SKU stem 'PP-SC' is reused across different flavours,PP-SC-18=Sugar Cookie; PP-SC-22=Salted Caramel
+ISS-0026,Medium,Colour,DR-20,Daily Recharge 20ct Pouch,No brand colours recorded,
+ISS-0027,Medium,Colour,DR-SP,Daily Recharge Stick,No brand colours recorded,
+ISS-0028,Medium,Colour,GFFB-01,Gluten Free Flour,No brand colours recorded,
+ISS-0029,Medium,Colour,PDM-CCC-05,Chocolate Candy Cane Protein Donut Mix,No brand colours recorded,
+ISS-0030,Medium,Colour,PDM-DEA-08,Andés Protein Donut Mix,No brand colours recorded,
+ISS-0031,Medium,Colour,PDM-DEB-09,Butterfinger Protein Donut Mix,No brand colours recorded,
+ISS-0032,Medium,Colour,PDM-DEH-10,Heath Protein Donut Mix,No brand colours recorded,
+ISS-0033,Medium,Colour,PDM-DEK-11,Kit Kat Protein Donut Mix,No brand colours recorded,
+ISS-0034,Medium,Colour,PDM-DEO-12,Oreo Protein Donut Mix,No brand colours recorded,
+ISS-0035,Medium,Colour,PDM-DER-13,Reese's Protein Donut Mix,No brand colours recorded,
+ISS-0036,Medium,Colour,PDM-DES-14,Snickers Protein Donut Mix,No brand colours recorded,
+ISS-0037,Medium,Colour,POC-AC1,Apple Cinnamon Protein Oatmeal Cup,No brand colours recorded,
+ISS-0038,Medium,Colour,POC-CS3,Cinnamon Spice Protein Oatmeal Cup,No brand colours recorded,
+ISS-0039,Medium,Colour,POC-MBS5,Maple & Brown Sugar Protein Oatmeal Cup,No brand colours recorded,
+ISS-0040,Medium,Spec,DR-20,Daily Recharge 20ct Pouch,No packaging spec resolves for this SKU,format=Pouch trim=(blank)
+ISS-0041,Medium,Spec,DR-SP,Daily Recharge Stick,No packaging spec resolves for this SKU,format=Stick trim=(blank)
+ISS-0042,Low,Colour,42224277717074,Frosted Vanilla Beef Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0043,Low,Colour,HBF-VNL,Frosted Vanilla Beef Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0044,Low,Colour,PCM-OR,Original Protein Crepe Mix,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0045,Low,Colour,PDM-SSS-22,Star Spangled Sprinkles Protein Donut Mix,Colour slot is not a valid PMS reference,slot 1: 'PMS --'
+ISS-0046,Low,Colour,PP-BF-21,Bananas Foster Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 2: 'CMYK 1 0 26 0'
+ISS-0047,Low,Colour,PP-CM-23,Café Mocha Plant Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0048,Low,Colour,PP-FC-19,Fruity Cereal Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0049,Low,Colour,PP-H-06,Horchata Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 1: 'PMS --'
+ISS-0050,Low,Colour,PP-IM-07,Iced Mocha Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PNS 9160 C'
+ISS-0051,Low,Colour,PP-LCK-27,Lemon Cake Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 2: 'PMS --'
+ISS-0052,Low,Colour,PP-N-09,Neapolitan Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 2: 'CMYK 3 1 17 0'
+ISS-0053,Low,Colour,PP-OC-10,Orange Cream Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0054,Low,Colour,PP-PA-30,Pomegranate Acai Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0055,Low,Colour,PP-RDV-28,Red Velvet Whey Protein Pouch,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0056,Low,Colour,PPSS-CM,Café Mocha Plant Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0057,Low,Colour,PSP-BF,Bananas Foster Whey Protein Stick,Colour slot is not a valid PMS reference,slot 2: 'CMYK 1 0 26 0'
+ISS-0058,Low,Colour,PSP-FC,Fruity Cereal Whey Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0059,Low,Colour,PSP-HO,Horchata Whey Protein Stick,Colour slot is not a valid PMS reference,slot 1: 'PMS --'
+ISS-0060,Low,Colour,PSP-IM,Iced Mocha Whey Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PNS 9160 C'
+ISS-0061,Low,Colour,PSP-LC,Lemon Cake Whey Protein Stick,Colour slot is not a valid PMS reference,slot 2: 'PMS --'
+ISS-0062,Low,Colour,PSP-NE,Neapolitan Whey Protein Stick,Colour slot is not a valid PMS reference,slot 2: 'CMYK 3 1 17 0'
+ISS-0063,Low,Colour,PSP-OC,Orange Cream Whey Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0064,Low,Colour,PSP-PA,Pomegranate Acai Whey Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'
+ISS-0065,Low,Colour,PSP-RV,Red Velvet Whey Protein Stick,Colour slot is not a valid PMS reference,slot 3: 'PMS --'

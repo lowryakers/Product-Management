@@ -1,0 +1,4 @@
+po_number,po_date,vendor,vendor_contact,category,source_file,line_count,total_qty_as_written,total_cost_as_written,excluded_qty,excluded_cost,total_qty_corrected,total_cost_corrected,status,authorized_by,notes
+42826,2026-04-28,Professional Packaging Services (PPS),Michael Rino <mrino@propackserv.com>,Stick Film,PO_film.xlsx,38,1993600,149320.64,100000,7490.0,1893600,141830.64,Open,"Daniel Augustyn, CEO",
+41726,2026-04-28,Professional Packaging Services (PPS),Michael Rino <mrino@propackserv.com>,Protein Pouch,PO_protein_pouches.xlsx,37,93000,47058.0,0,0.0,93000,47058.0,Open,"Daniel Augustyn, CEO",
+43026,2026-04-28,Professional Packaging Services (PPS),Michael Rino <mrino@propackserv.com>,Mix Pouch,PO_pancake_etc_pouches.xlsx,11,55000,23870.0,40000,17360.0,15000,6510.0,Open,"Daniel Augustyn, CEO",

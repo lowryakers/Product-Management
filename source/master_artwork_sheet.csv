@@ -1,0 +1,119 @@
+flavor,sku,gtin/barcode,packaging type,material,zipper,print,trim length,trim width,gusset dimension,front panel dimension,wind direction,pms spot colors,hex spot colors,eye mark color,die line required
+Apple Pie Whey Protein Pouch,PP-AP-01,850046726156,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 361 C, PMS 367 C, PMS 9121 C","HEX 36AD2D, HEX 9FD560, HEX EDEDB2",,TRUE
+Chocolate Mousse Whey Protein Pouch,PP-CM-02,850046726163,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 4625 C, PMS 7516 C, PMS 727 C","HEX 4E2CID, HEX 98552A, HEX DAB38D",,TRUE
+Chocolate Peanut Butter Whey Protein Pouch,PP-CPB-17,850046726637,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 4695 C, PMS 715 C, PMS 7506 C","HEX 5C3327, HEX F88D2A, HEX F2DAB2",,TRUE
+Coconut Cream Whey Protein Pouch,PP-CNC-03,850046726170,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 9081 C, PMS 7516 C, PMS 4625 C","HEX DED8D4, HEX 9B552B, HEX 502C1E",,TRUE
+Cookie Crumble Whey Protein Pouch,PP-CC-04,850046726187,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 298 C, PMS 285 C, PMS 648 C","HEX 3CB4E5, HEX 0071CE, HEX 002D5D",,TRUE
+Glazed Donut Whey Protein Pouch,PP-GD-05,850046726194,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 177 C, PMS 9160 C, PMS 4625 C","HEX FF8189, HEX F4E3BF, HEX 502C1E",,TRUE
+Horchata Whey Protein Pouch,PP-H-06,850046726200,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS --, PMS 721 C, PMS 4625 C","HEX FFFFFF, HEX DEA36D, HEX 502C1E",,TRUE
+Iced Mocha Whey Protein Pouch,PP-IM-07,850046726217,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7567 C, PMS 728 C, PNS 9160 C","HEX 895334, HEX 9FD560, HEX EDEDB2",,TRUE
+Maple Donut Whey Protein Pouch,PP-MD-08,850046726224,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 1685 C, PMS 7565 C, PMS 9160 C","HEX 863A20, HEX CB792E, HEX F4E3BF",,TRUE
+Neapolitan Whey Protein Pouch,PP-N-09,850046726231,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 1767 C, CMYK 3 1 17 0, PMS 4625 C","HEX 5C3327, HEX F6F4DA, HEX 502C1E",,TRUE
+Orange Cream Whey Protein Pouch,PP-OC-10,850046726248,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 1495 C, PMS 123 C, PMS --","HX FF9015, HEX FFC62D, HEX FFFFFF",,TRUE
+Peach Cobbler Whey Protein Pouch,PP-PC-11,850046726255,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 171 C, PMS 135 C, PMS 9201 C","HEX FF5C35, HEX FFC557, HEX 502C1E",,TRUE
+Raspberry Cheesecake Whey Protein Pouch,PP-RC-12,850046726262,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 676 C, PMS 231 C, PMS 9160 C","HEX 951257, HEX E81F76, HEX F43BF",,TRUE
+Snickerdoodle Whey Protein Pouch,PP-SD-13,850046726279,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7412 C, PMS 1225 C, PMS 7401 C","HEX D48232, HEX FFC653, HEX F6DFA4",,TRUE
+Strawberry Shortcake Whey Protein Pouch,PP-SS-14,850046726286,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 186, PMS 177 C, PMS 9181 C","HEX CE0E2D, HEX FF8189, HEX F5E1C8",,TRUE
+Vanilla Bean Whey Protein Pouch,PP-VB-15,850046726477,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 638 C, PMS 304 C, PMS 9224 U","HEX 00ACD8, HEX 96DAEA, HEX FBEADA",,TRUE
+Pomegranate Acai Whey Protein Pouch,PP-PA-30,850079939202,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7650 C, PMS 673 C, PMS --","HEX 722455, HEX D484B6, HEX FFFFFF",white,TRUE
+Pumpkin Spice Whey Protein Pouch,PP-PS-16,850046726590,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 158 C, PMS 7580 C, PMS 7506 C","HEX EE7623, HEX C25131, HEX F2DAB2",,TRUE
+Sugar Cookie Whey Protein Pouch,PP-SC-18,850046726620,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 9224 U, PMS 708 C, PMS 7419 C","HEX FBEADA, HEX F48E9F, HEX AC505D",,TRUE
+Fruity Cereal Whey Protein Pouch,PP-FC-19,850046726606,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 485 C, PMS 106 C, PMS --","HEX E8332A, HEX F5E252, HEX FFFFFF",,TRUE
+Mint Chocolate Whey Protein Pouch,PP-MC-20,850046726613,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 351 C, PMS 483 C, PMS Black C","HEX 98D2B3, HEX 602C25, HEX 000000",,TRUE
+Bananas Foster Whey Protein Pouch,PP-BF-21,850079939172,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 113 C, CMYK 1 0 26 0, PMS 469 C","HEX F8DD5C, HEX FEF9CA, HEX E613B24",,TRUE
+Birthday Cake Whey Protein Pouch,PP-BD-22,850079939165,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 9224 C, PMS 806 C, PMS 2727 C","HEX F8EAD9, HEX FF41B2, HEX 247DE3",,TRUE
+Blueberry Muffin Whey Protein Pouch,PP-BLM-23,850079939158,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 2766 C, PMS 660 C, PMS 290 C","HEX 0F1B4D, HEX 397DC9, HEX B6D7EB",,TRUE
+Cinnamon Roll Whey Protein Pouch,PP-CRL-24,850079939141,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7628 C, PMS 7631 C, PMS 9184 C","HEX 9F2E32, HEX 552E2E, HEX EDE3CF",,TRUE
+Double Chocolate Whey Protein Pouch,PP-DCH-25,850079939127,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 476 C, PMS 7566 C, PMS 727 C","HEX 4E352B, HEX 945631, HEX D8B48F",,TRUE
+Key Lime Pie Whey Protein Pouch,PP-KLP-26,850079939134,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 354 C, PMS 375 C, PMS 9120 C","HEX 00AE44, HEX 91D500, HEX EEEDB6",,TRUE
+Lemon Cake Whey Protein Pouch,PP-LCK-27,850079939110,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 107 C, PMS --, PMS 7554","HEX FBE020, HEX FFFFFF, HEX 4A3C2A",,TRUE
+Red Velvet Whey Protein Pouch,PP-RDV-28,850079939103,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 186 C, PMS 188 C, PMS --","HEX D01F39, HEX 722031, HEX FFFFFF",,TRUE
+Salted Caramel Whey Protein Pouch,PP-SLC-29,850079939097,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7516 C, PMS 7570 C, PMS 7506 C","HEX 945631, HEX D38337, HEX EDD4AA",,TRUE
+Apple Pie Whey Protein Stick,PSP-AP,850046726668,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 361 C, PMS 367 C, PMS 9121 C","HEX 36AD2D, HEX 9FD560, HEX EDEDB2",black,TRUE
+Chocolate Mousse Whey Protein Stick,PSP-CM,850046726712,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 4625 C, PMS 7516 C, PMS 727 C","HEX 4E2CID, HEX 98552A, HEX DAB38D",white,TRUE
+Chocolate Peanut Butter Whey Protein Stick,PSP-CPB,850046726644,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 4695 C, PMS 715 C, PMS 7506 C","HEX 5C3327, HEX F88D2A, HEX F2DAB2",white,TRUE
+Coconut Cream Whey Protein Stick,PSP-CC,850046726729,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 9081 C, PMS 7516 C, PMS 4625 C","HEX DED8D4, HEX 9B552B, HEX 502C1E",black,TRUE
+Cookie Crumble Whey Protein Stick,PSP-CCR,850046726736,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 298 C, PMS 285 C, PMS 648 C","HEX 3CB4E5, HEX 0071CE, HEX 002D5D",black,TRUE
+Fruity Cereal Whey Protein Stick,PSP-FC,850046726705,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 485 C, PMS 106 C, PMS --","HEX E8332A, HEX F5E252, HEX FFFFFF",white,TRUE
+Glazed Donut Whey Protein Stick,PSP-GD,850046726743,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 177 C, PMS 9160 C, PMS 4625 C","HEX FF8189, HEX F4E3BF, HEX 502C1E",black,TRUE
+Horchata Whey Protein Stick,PSP-HO,850046726750,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS --, PMS 721 C, PMS 4625 C","HEX FFFFFF, HEX DEA36D, HEX 502C1E",black,TRUE
+Iced Mocha Whey Protein Stick,PSP-IM,850046726767,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7567 C, PMS 728 C, PNS 9160 C","HEX 895334, HEX 9FD560, HEX EDEDB2",white,TRUE
+Maple Donut Whey Protein Stick,PSP-MD,850046726675,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 1685 C, PMS 7565 C, PMS 9160 C","HEX 863A20, HEX CB792E, HEX F4E3BF",white,TRUE
+Mint Chocolate Whey Protein Stick,PSP-MC,850046726651,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 351 C, PMS 483 C, PMS Black C","HEX 98D2B3, HEX 602C25, HEX 000000",black,TRUE
+Neapolitan Whey Protein Stick,PSP-NE,850046726774,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 1767 C, CMYK 3 1 17 0, PMS 4625 C","HEX 5C3327, HEX F6F4DA, HEX 502C1E",black,TRUE
+Orange Cream Whey Protein Stick,PSP-OC,850046726781,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 1495 C, PMS 123 C, PMS --","HX FF9015, HEX FFC62D, HEX FFFFFF",black,TRUE
+Peach Cobbler Whey Protein Stick,PSP-PC,850046726798,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 171 C, PMS 135 C, PMS 9201 C","HEX FF5C35, HEX FFC557, HEX 502C1E",black,TRUE
+Pumpkin Spice Whey Protein Stick,PSP-PS,850046726699,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 158 C, PMS 7580 C, PMS 7506 C","HEX EE7623, HEX C25131, HEX F2DAB2",black,TRUE
+Raspberry Cheesecake Whey Protein Stick,PSP-RC,850046726804,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 676 C, PMS 231 C, PMS 9160 C","HEX 951257, HEX E81F76, HEX F43BF",white,TRUE
+Snickerdoodle Whey Protein Stick,PSP-SD,850046726682,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7412 C, PMS 1225 C, PMS 7401 C","HEX D48232, HEX FFC653, HEX F6DFA4",black,TRUE
+Strawberry Shortcake Whey Protein Stick,PSP-SS,850046726811,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 186, PMS 177 C, PMS 9181 C","HEX CE0E2D, HEX FF8189, HEX F5E1C8",black,TRUE
+Sugar Cookie Whey Protein Stick,PSP-SC,850046726873,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 9224 U, PMS 708 C, PMS 7419 C","HEX FBEADA, HEX F48E9F, HEX AC505D",black,TRUE
+Vanilla Bean Whey Protein Stick,PSP-VB,850046726828,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 638 C, PMS 304 C, PMS 9224 U","HEX 00ACD8, HEX 96DAEA, HEX FBEADA",black,TRUE
+Pomegranate Acai Whey Protein Stick,PSP-PA,850046726880,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7650 C, PMS 673 C, PMS --","HEX 722455, HEX D484B6, HEX FFFFFF",white,TRUE
+Bananas Foster Whey Protein Stick,PSP-BF,850046726927,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 113 C, CMYK 1 0 26 0, PMS 469 C","HEX F8DD5C, HEX FEF9CA, HEX E613B24",black,TRUE
+Birthday Cake Whey Protein Stick,PSP-BD,850046726934,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 9224 C, PMS 806 C, PMS 2727 C","HEX F8EAD9, HEX FF41B2, HEX 247DE3",black,TRUE
+Blueberry Muffin Whey Protein Stick,PSP-BM,850046726941,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 2766 C, PMS 660 C, PMS 290 C","HEX 0F1B4D, HEX 397DC9, HEX B6D7EB",white,TRUE
+Cinnamon Roll Whey Protein Stick,PSP-CRL,850046726958,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7628 C, PMS 7631 C, PMS 9184 C","HEX 9F2E32, HEX 552E2E, HEX EDE3CF",white,TRUE
+Double Chocolate Whey Protein Stick,PSP-DC,850046726965,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 476 C, PMS 7566 C, PMS 727 C","HEX 4E352B, HEX 945631, HEX D8B48F",white,TRUE
+Key Lime Pie Whey Protein Stick,PSP-KL,850046726972,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 354 C, PMS 375 C, PMS 9120 C","HEX 00AE44, HEX 91D500, HEX EEEDB6",black,TRUE
+Lemon Cake Whey Protein Stick,PSP-LC,850046726989,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 107 C, PMS --, PMS 7554","HEX FBE020, HEX FFFFFF, HEX 4A3C2A",black,TRUE
+Red Velvet Whey Protein Stick,PSP-RV,850046726996,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 186 C, PMS 188 C, PMS --","HEX D01F39, HEX 722031, HEX FFFFFF",white,TRUE
+Salted Caramel Whey Protein Stick,PSP-SCR,850079939004,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7516 C, PMS 7570 C, PMS 7506 C","HEX 945631, HEX D38337, HEX EDD4AA",white,TRUE
+Cinnamon Sugar Beef Protein Pouch,42224277651538,850079939066,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7628 C, PMS 7631 C, PMS 9184 C","HEX 9F2E32, HEX 552E2E, HEX EDE3CF",,TRUE
+Double Chocolate Beef Protein Pouch,42224277684306,850079939080,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 4625 C, PMS 7516 C, PMS 727 C","HEX 49261A, HEX 945631, HEX D8B48F",,TRUE
+Frosted Vanilla Beef Protein Pouch,42224277717074,850079939073,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 3005 C, PMS 2915 C, PMS --","HEX 007DC5, HEX 51B1E2, HEX FFFFFF",,TRUE
+Toffee Cream Beef Protein Pouch,42224277749842,850079939059,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 728 C, PMS 7581 C, PMS 9201 C","HEX C49873, HEX 804837, HEX F4E1CB",,TRUE
+Cinnamon Sugar Beef Protein Stick,HBF-CHU,850079939035,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7628 C, PMS 7631 C, PMS 9184 C","HEX 9F2E32, HEX 552E2E, HEX EDE3CF",white,TRUE
+Double Chocolate Beef Protein Stick,HBF-DCH,850079939028,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 4625 C, PMS 7516 C, PMS 727 C","HEX 49261A, HEX 945631, HEX D8B48F",white,TRUE
+Toffee Cream Beef Protein Stick,HBF-DDL,850079939042,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 728 C, PMS 7581 C, PMS 9201 C","HEX C49873, HEX 804837, HEX F4E1CB",black,TRUE
+Frosted Vanilla Beef Protein Stick,HBF-VNL,850079939011,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 3005 C, PMS 2915 C, PMS --","HEX 007DC5, HEX 51B1E2, HEX FFFFFF",black,TRUE
+Brownie Batter Plant Protein Pouch,PP-BB-21,850046726576,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 476 C, PMS 7566 C, PMS 7506 C","HEX 4E352B, HEX 945631, HEX F2DAB2",,TRUE
+Café Mocha Plant Protein Pouch,PP-CM-23,850046726569,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 4655 C, PMS 7567 C, PMS --","HEX B68C72, HEX 815135, HEX FFFFFF",,TRUE
+Salted Caramel Plant Protein Pouch,PP-SC-22,850046726552,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 7516 C, PMS 7570 C, PMS 7506 C","HEX 935635, HEX D1833F, HEX EDD3AD",,TRUE
+Vanilla Cone Plant Protein Pouch,PP-VC-24,850046726583,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,254mm,254mm,76.2mm,,,"PMS 9160 C, PMS 130 C, PMS 7568 C","HEX F4E3C1, HEX F4A718, HEX 6E4C37",,TRUE
+Brownie Batter Plant Protein Stick,PPSS-BB,850046726835,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 476 C, PMS 7566 C, PMS 7506 C","HEX 4E352B, HEX 945631, HEX F2DAB2",white,TRUE
+Café Mocha Plant Protein Stick,PPSS-CM,850046726842,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 4655 C, PMS 7567 C, PMS --","HEX B68C72, HEX 815135, HEX FFFFFF",black,TRUE
+Salted Caramel Plant Protein Stick,PPSS-SC,850046726859,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 7516 C, PMS 7570 C, PMS 7506 C","HEX 935635, HEX D1833F, HEX EDD3AD",white,TRUE
+Vanilla Cone Plant Protein Stick,PPSS-VC,850046726866,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,175mm,140mm,,66mm,3,"PMS 9160 C, PMS 130 C, PMS 7568 C","HEX F4E3C1, HEX F4A718, HEX 6E4C37",black,TRUE
+Buttermilk Protein Pancake Mix,PPM-BM,850030869746,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 638 C, PMS 304 C, PMS 9224 U","HEX 00ACD8, HEX 96DAEA, HEX F8EADA",,TRUE
+Chocolate Protein Pancake Mix,PPM-C,850046726149,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 4625 C, PMS 470 C, PMS 475 C","HEX 502C1F, HEX A45A30, HEX F2CEB4",,TRUE
+Cinnamon Swirl Protein Pancake Mix,PPM-CS,850046726002,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 7608 C, PMS 1565 C, PMS 9184 C","HEX A74840, HEX FFA16E, HEX EFE2CE",,TRUE
+Pumpkin Spice Protein Pancake Mix,PPM-PS,850046726033,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 158 C, PMS 285 C, PMS 7506 C","HEX EE7623, HEX C25131, HEX F2DAB2",,TRUE
+Daily Recharge 20ct Pouch,DR-20,850046726491,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,,CMYK,,,,,,,,,TRUE
+Daily Recharge Stick,DR-SP,850046726484,Stick,#781 PET Soft Touch on #858 COS Web metallocene,,CMYK,,,,,,,,,TRUE
+Gluten Free Flour,GFFB-01,850030869753,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,,,,TRUE
+Apple Cinnamon Protein Oatmeal Cup,POC-AC1,850046726309,Cup,,,,,,,,,,,,
+Maple & Brown Sugar Protein Oatmeal Cup,POC-MBS5,850046726316,Cup,,,,,,,,,,,,
+Cinnamon Spice Protein Oatmeal Cup,POC-CS3,850046726354,Cup,,,,,,,,,,,,
+Chocolate Protein Cupcake Mix,PCCM-CH-01,850046726095,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 4625 C, PMS 470 C, PMS 727 C","HEX 502C1F, HEX A45A30, HEX D8B48F",,TRUE
+Cinnamon Swirl Protein Cupcake Mix,PCCM-CS-02,850046726101,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 7608 C, PMS 1565 C, PMS 9184 C","HEX A74840, HEX FFA16E, HEX EFE2CE",,TRUE
+Pumpkin Spice Protein Cupcake Mix,PCCM-PS-03,850046726125,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 158 C, PMS 7580 C, PMS 7506 C","HEX EE7623, HEX C25131, HEX F2DAB2",,TRUE
+Vanilla Protein Cupcake Mix,PCCM-V-04,850046726132,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 638 C, PMS 304 C, PMS 9224 U","HEX 00ACD8, HEX 96DAEA, HEX FBEADA",,TRUE
+Original Protein Crepe Mix,PCM-OR,850046726026,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 143 C, PMS 7565 C, PMS --","HEX F0B242, HEX CB792E, HEX FFFFFF",,TRUE
+Chocolate Protein Crepe Mix,PCM-CH,850046726040,Pouch,Karess Soft Touch Matte PET/White 48ga METPET/3.0mil Clear LLDPE,Aplix,CMYK,228.6mm,203.2mm,76.2mm,,,"PMS 4625 C, PMS 470 C, PMS 475 C","HEX 502C1F, HEX A45A30, HEX F2CEB4",,TRUE
+Apple Strudel Protein Donut Mix,PDM-AS-01,850030869760,Box,,,,,,,,,"PMS 361 C, PMS 367 C, PMS 9121 C","HEX 36AD2D, HEX 9FD560, HEX EDEDB2",,
+Banana Cream Protein Donut Mix,PDM-BC-02,850030869999,Box,,,,,,,,,"PMS 1215 C, PMS 124 C, PMS 725 C","HEX FBD579, HEX EAA81A, HEX 7D401B",,
+Birthday Cake Protein Donut Mix,PDM-BDC-03,850030869791,Box,,,,,,,,,"PMS 9060 C, PMS 806 C, PMS 2727 C","HEX F1EFDA, HEX FF47B3, HEX 307FDE",,
+Cheesecake Crumble Protein Donut Mix,PDM-CC-04,850030869944,Box,,,,,,,,,"PMS 9160 C, PMS 130 C, PMS 1615 C","HEX F4E3C1, HEX F4A718, HEX 8C4825",,
+Chocolate Candy Cane Protein Donut Mix,PDM-CCC-05,850030869968,Box,,,,,,,,,,,,
+Chocolate Peanut Butter Protein Donut Mix,PDM-CPB-06,850030869821,Box,,,,,,,,,"PMS 4695 C, PMS 715 C, PMS 7506 C","HEX 5C3329, HEX F68D39, HEX F1DAB4",,
+Cinnamon Sugar Protein Donut Mix,PDM-CS-07,850030869807,Box,,,,,,,,,"PMS 7608 C, PMS 1565 C, PMS 9184 C","HEX A74840, HEX FFA16E, HEX EFE2CE",,
+Double Chocolate Protein Donut Mix,PDM-DC-15,850030869845,Box,,,,,,,,,"PMS 4625 C, PMS 470 C, PMS 475 C","HEX 502C1F, HEX A45A30, HEX F2CEB4",,
+Key Lime Protein Donut Mix,PDM-KL-16,850046726057,Box,,,,,,,,,"PMS 354 C, PMS 375 C, PMS 9120 C","HEX 00AD47, HEX 95D324, HEX F1EDBA",,
+Lemon Poppy Seed Protein Donut Mix,PDM-LPS-17,850030869852,Box,,,,,,,,,"PMS 123 C, PMS 903 C, PMS 7554 C","HEX FFC43E, HEX FFF178, HEX 4B3D2C",,
+Peanut Butter & Jelly Protein Donut Mix,PDM-PBJ-18,850030869869,Box,,,,,,,,,"PMS 1601 C, PMS 130 C, PMS 1355 C","HEX A35424, HEX F4A718, HEX FFC474",,
+Peanut Butter Banana Protein Donut Mix,PDM-PBB-19,850046726064,Box,,,,,,,,,"PMS 7569 C, PMS 1215 C, PMS 168 C","HEX D88832, HEX FBD579, HEX 733920",,
+Raspberry Cheesecake Protein Donut Mix,PDM-RC-20,850046726071,Box,,,,,,,,,"PMS 676 C, PMS 213 C, PMS 9160 C","HEX 980750, HEX E62777, HEX F4E3C1",,
+Salted Caramel Protein Donut Mix,PDM-SC-21,850046726088,Box,,,,,,,,,"PMS 7563 C, PMS 471 C, PMS 483 C","HEX D69938, HEX B9612D, HEX 663027",,
+Star Spangled Sprinkles Protein Donut Mix,PDM-SSS-22,850046726460,Box,,,,,,,,,"PMS --, PMS 186 C, PMS 300 C","HEX FFFFFF, HEX CD233D, HEX 006BAB",,
+Strawberries & Cream Protein Donut Mix,PDM-STC-23,850030869906,Box,,,,,,,,,"PMS 186 C, PMS 177 C, PMS 9181","HEX CC1532, HEX FF828B, HEX F4E1C9",,
+Toasted Coconut Protein Donut Mix,PDM-TC-24,850030869883,Box,,,,,,,,,"PMS 9081 C, PMS 7516 C, PMS 4625 C","HEX DEDBD4, HEX 9B552B, HEX 502C1E",,
+Vanilla Cream Protein Donut Mix,PDM-VC-25,850030869951,Box,,,,,,,,,"PMS 638 C, PMS 304 C, PMS 9224 U","HEX 00ACD8, HEX 96DAEA, HEX FBEADA",,
+Wild Blueberry Protein Donut Mix,PDM-WB-26,850030869890,Box,,,,,,,,,"PMS 2766 C, PMS 660 C, PMS 290 C","HEX 111E4D, HEX 407EC7, HEX B9D8EA",,
+Andés Protein Donut Mix,PDM-DEA-08,850030869920,Box,,,,,,,,,,,,
+Butterfinger Protein Donut Mix,PDM-DEB-09,850030869777,Box,,,,,,,,,,,,
+Heath Protein Donut Mix,PDM-DEH-10,850030869838,Box,,,,,,,,,,,,
+Kit Kat Protein Donut Mix,PDM-DEK-11,850030869913,Box,,,,,,,,,,,,
+Oreo Protein Donut Mix,PDM-DEO-12,850030869814,Box,,,,,,,,,,,,
+Reese's Protein Donut Mix,PDM-DER-13,850030869876,Box,,,,,,,,,,,,
+Snickers Protein Donut Mix,PDM-DES-14,850030869937,Box,,,,,,,,,,,,

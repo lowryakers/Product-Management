@@ -1,0 +1,6 @@
+id,date_logged,source,channel,area,sku_affected,raw_note,decision,owner,due,status,priority
+CHG-0001,2026-07-29,Lowry (system audit),Audit,PO,,"Film PO and Pancake PO both carry lines annotated as removed, but the annotated lines are still inside the SUM. Combined overstatement 140,000 units / $24,850.",Confirm true quantities with PPS before invoicing,Lowry,2026-08-01,Open,Critical
+CHG-0002,2026-07-29,Lowry (system audit),Audit,PO,,"Two of three PO file names disagree with the PO number inside the sheet (41626 vs 42826, 42926 vs 41726).",Adopt auto-generated PO numbers; never hand-type,Lowry,2026-08-01,Open,High
+CHG-0003,2026-07-29,Lowry (system audit),Audit,SKU,PP-PA-30,"Pomegranate Acai has stick film on the film PO (55,000) but no pouch on the pouch PO.",Confirm whether the pouch is intentionally deferred,Lowry,2026-08-05,Open,High
+CHG-0004,2026-07-29,Lowry (system audit),Audit,Artwork,"PP-CM-02, PSP-CM, PP-RC-12, PSP-RC, PP-BF-21, PSP-BF","Six SKUs carry hex values that are not valid hex (4E2CID, F43BF, E613B24).",Shaun to supply corrected values from the print files,Shaun,2026-08-05,Open,High
+CHG-0005,2026-07-29,Lowry (system audit),Audit,SKU,Beef protein pouches (4),Four beef pouch SKUs hold Shopify variant IDs instead of SKU codes.,Assign real SKU codes matching the HBF-* stick convention,Lowry,2026-08-05,Open,High
