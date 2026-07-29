@@ -68,14 +68,27 @@ matched, and that file is now `data/po_lines.csv`.
 
 **PO numbers disagree with their own file names on 2 of 3 POs.**
 
-| File name says | Sheet cell F15 says |
-|---|---|
-| `PO_41626` | `#42826` |
-| `PO_42926` | `#41726` |
-| `PO_43026` | `#43026` ✓ |
+| File name says | Sheet cell F15 says | PO date field |
+|---|---|---|
+| `PO_41626` | `#42826` | 2026-04-28 |
+| `PO_42926` | `#41726` | 2026-04-28 |
+| `PO_43026` | `#43026` ✓ | 2026-04-28 |
 
-Note the digits are transposed, not random — the classic signature of hand-typed
-numbers. When you email PPS about "PO 41626," nobody knows which document you
+**These are date codes, not arbitrary numbers.** `42826` is 4/28/26, `41626` is
+4/16/26, `41726` is 4/17/26, `43026` is 4/30/26 — MMDDYY throughout.
+
+So the problem is not typing errors, it is that the number is a date stamped at
+one moment and the document keeps living afterwards. The film PO's number matches
+its PO date; its file name is frozen at the draft date twelve days earlier. The
+protein pouch PO matches *neither* — number from 4/17, file name from 4/29, date
+field 4/28.
+
+The fix follows from that: **derive the number from the date the PO is actually
+sent, set it once at send time, and generate the file name from the record** so
+the two can never disagree. Same-day collisions get a letter suffix (`42826A`,
+`42826B`).
+
+Until then, when you email PPS about "PO 41626," nobody knows which document you
 mean.
 
 **The film PO footer says `SKUs: 21`. The PO has 38 line items.** The footer was

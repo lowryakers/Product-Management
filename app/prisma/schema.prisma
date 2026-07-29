@@ -1,0 +1,575 @@
+// ProDough product management
+//
+// Design rules baked into this schema:
+//   1. Product.sku is the join key. Everything hangs off it.
+//   2. Money that must not drift is Decimal, never Float.
+//   3. Authoritative data that lives elsewhere (formulas in the MRP, artwork
+//      files in Google Drive) is referenced by pointer, never copied.
+//   4. POLine.excluded exists so a removed line stays visible while its money
+//      leaves the total. This is the $24,850 fix.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------- people
+
+enum Role {
+  OWNER
+  STAFF
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  role         Role     @default(STAFF)
+  passwordHash String
+  createdAt    DateTime @default(now())
+  lastSeenAt   DateTime?
+
+  sessions          Session[]
+  pushSubscriptions PushSubscription[]
+  loggedItems       InboxItem[]        @relation("logger")
+  ownedItems        InboxItem[]        @relation("owner")
+  approvedArtwork   ArtworkVersion[]   @relation("artworkApprover")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+/// External people who never log in — Danny, Shaun, Matt, Michael, Adam, Jake.
+model Contact {
+  id         String  @id @default(cuid())
+  name       String
+  roleTitle  String
+  org        String
+  email      String?
+  phone      String?
+  provides   String?
+  isExternal Boolean @default(true)
+  active     Boolean @default(true)
+
+  inboxItems      InboxItem[]
+  artworkVersions ArtworkVersion[] @relation("designer")
+  nfpVersions     NfpVersion[]     @relation("nfpAuthor")
+  formulas        Formula[]        @relation("formulaAuthor")
+}
+
+model Vendor {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  contactName String?
+  email       String?
+  phone       String?
+  address     String?
+
+  specs          PackagingSpec[]
+  rfqs           Rfq[]
+  quotes         Quote[]
+  purchaseOrders PurchaseOrder[]
+}
+
+// ---------------------------------------------------------------- catalog
+
+enum PackFormat {
+  POUCH
+  STICK
+  BOX
+  CUP
+}
+
+/// Five records replace 118 rows of copy-pasted material strings.
+model PackagingSpec {
+  specId            String     @id
+  name              String
+  format            PackFormat
+  materialStructure String?
+  zipper            String?
+  printProcess      String?
+  trimLengthMm      Decimal?   @db.Decimal(10, 2)
+  trimWidthMm       Decimal?   @db.Decimal(10, 2)
+  gussetMm          Decimal?   @db.Decimal(10, 2)
+  frontPanelMm      Decimal?   @db.Decimal(10, 2)
+  windDirection     String?
+  coreIn            String?
+  dielineRequired   Boolean    @default(true)
+  /// Exact string that prints on the PO footer. Stored once, rendered from here,
+  /// so "SKUs: 21" on a 38-line PO can never happen again.
+  vendorSpecString  String?
+  notes             String?
+  vendorId          String?
+  vendor            Vendor?    @relation(fields: [vendorId], references: [id])
+
+  products   Product[]
+  rfqLines   RfqLine[]
+  quoteLines QuoteLine[]
+  poLines    POLine[]
+}
+
+enum ProductStatus {
+  CONCEPT
+  IN_DEVELOPMENT
+  ACTIVE
+  ON_HOLD
+  DISCONTINUED
+}
+
+model Product {
+  sku              String        @id
+  /// Retired code kept so historic POs and Shopify orders still resolve.
+  legacySku        String?
+  gtin             String?       @unique
+  productLine      String
+  format           PackFormat
+  flavor           String
+  /// What joins a flavour across formats. "Double Chocolate" is five SKUs.
+  baseFlavor       String
+  status           ProductStatus @default(ACTIVE)
+  specId           String?
+  spec             PackagingSpec? @relation(fields: [specId], references: [specId])
+  shopifySku       String?
+  shopifyVariantId String?
+  /// Pointer to the MRP. The formula itself never lives here.
+  mrpFormulaId     String?
+  formulaRev       String?
+  eyemarkColor     String?
+  dielineRequired  Boolean       @default(true)
+  dataQualityFlag  String?
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  colors          SkuColor[]
+  artworkVersions ArtworkVersion[]
+  nfpVersions     NfpVersion[]     @relation("nfpProducts")
+  poLines         POLine[]
+  inboxItems      InboxItem[]      @relation("inboxProducts")
+  formulas        Formula[]        @relation("formulaProducts")
+
+  @@index([baseFlavor])
+  @@index([productLine])
+  @@index([status])
+}
+
+model SkuColor {
+  id       String  @id @default(cuid())
+  sku      String
+  product  Product @relation(fields: [sku], references: [sku], onDelete: Cascade)
+  slot     Int
+  pms      String?
+  hex      String?
+  hexValid Boolean @default(false)
+  pmsValid Boolean @default(false)
+
+  @@unique([sku, slot])
+}
+
+// ---------------------------------------------------------------- inbox
+
+enum InboxArea {
+  ARTWORK
+  FORMULA
+  SPEC
+  GTIN
+  /// An existing SKU's identity is wrong — bad code, collision, wrong mapping.
+  SKU
+  /// A request for a product that does not exist yet.
+  NEW_SKU
+  PO
+  SHOPIFY
+  NFP
+  VENDOR
+  OTHER
+}
+
+enum InboxChannel {
+  TEXT
+  CALL
+  IN_PERSON
+  EMAIL
+  SLACK
+  AUDIT
+}
+
+enum InboxStatus {
+  NEW
+  TRIAGED
+  IN_PROGRESS
+  BLOCKED
+  DONE
+}
+
+enum Priority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+/// The door. Everything enters here.
+model InboxItem {
+  id        String  @id @default(cuid())
+  ref       Int     @unique @default(autoincrement())
+  /// Client-generated id so an offline capture replayed twice is not duplicated.
+  clientId  String? @unique
+
+  createdAt        DateTime      @default(now())
+  loggedById       String?
+  loggedBy         User?         @relation("logger", fields: [loggedById], references: [id])
+  sourceContactId  String?
+  sourceContact    Contact?      @relation(fields: [sourceContactId], references: [id])
+  channel          InboxChannel  @default(TEXT)
+  area             InboxArea     @default(OTHER)
+
+  /// Exactly what was said. Never edited — this is the record.
+  rawNote   String
+  /// Your interpretation. Written at triage, not at capture.
+  decision  String?
+
+  ownerId   String?
+  owner     User?        @relation("owner", fields: [ownerId], references: [id])
+  dueDate   DateTime?
+  status    InboxStatus  @default(NEW)
+  priority  Priority     @default(MEDIUM)
+  triagedAt DateTime?
+  closedAt  DateTime?
+
+  products Product[] @relation("inboxProducts")
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------- artwork
+
+enum ArtworkStage {
+  BRIEF
+  IN_DESIGN
+  INTERNAL_REVIEW
+  REVISION
+  APPROVED
+  SENT_TO_VENDOR
+  VENDOR_PROOF
+  PRINT_READY
+  PRINTED
+  SUPERSEDED
+}
+
+model ArtworkVersion {
+  id      String  @id @default(cuid())
+  sku     String
+  product Product @relation(fields: [sku], references: [sku], onDelete: Cascade)
+  version Int
+
+  stage             ArtworkStage @default(BRIEF)
+  designerContactId String?
+  designer          Contact?     @relation("designer", fields: [designerContactId], references: [id])
+  changeSummary     String?
+
+  /// Google Drive stays the filing cabinet. We store the pointer.
+  proofLink     String?
+  printFileLink String?
+  driveFileId   String?
+
+  nfpVersionId String?
+  nfpVersion   NfpVersion? @relation(fields: [nfpVersionId], references: [id])
+
+  // the pre-print gate
+  gtinVerified    Boolean @default(false)
+  nfpVerified     Boolean @default(false)
+  eyemarkVerified Boolean @default(false)
+
+  approvedByUserId String?
+  approvedBy       User?     @relation("artworkApprover", fields: [approvedByUserId], references: [id])
+  approvedAt       DateTime?
+  sentToVendorAt   DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([sku, version])
+  @@index([stage])
+}
+
+// ------------------------------------------------------------------- NFP
+
+enum NfpStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  CHANGES_REQUESTED
+  SUPERSEDED
+}
+
+/// Matt drafts. Danny approves by signed link — he never gets an account.
+model NfpVersion {
+  id      String @id @default(cuid())
+  ref     Int    @unique @default(autoincrement())
+  version Int    @default(1)
+  label   String
+
+  createdByContactId String?
+  createdBy          Contact?  @relation("nfpAuthor", fields: [createdByContactId], references: [id])
+  sourceFormulaRev   String?
+  /// Panel values as captured (calories, protein, serving size, ...).
+  panelData          Json?
+  fileLink           String?
+
+  status NfpStatus @default(DRAFT)
+
+  // approval-by-link
+  approvalToken          String?   @unique
+  approvalTokenExpiresAt DateTime?
+  sentForApprovalAt      DateTime?
+  approvedAt             DateTime?
+  approverName           String?
+  approverNote           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products        Product[]        @relation("nfpProducts")
+  artworkVersions ArtworkVersion[]
+
+  @@index([status])
+}
+
+// --------------------------------------------------------------- formulas
+
+/// Pointer to the MRP plus the two checkboxes that drive the cascade.
+model Formula {
+  id                 String   @id @default(cuid())
+  mrpFormulaId       String
+  rev                String
+  effectiveDate      DateTime?
+  changedByContactId String?
+  changedBy          Contact? @relation("formulaAuthor", fields: [changedByContactId], references: [id])
+  changeSummary      String?
+  nfpImpact          Boolean  @default(false)
+  artworkImpact      Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  products Product[] @relation("formulaProducts")
+
+  @@unique([mrpFormulaId, rev])
+}
+
+// ------------------------------------------------------- quotes & pricing
+
+enum RfqStatus {
+  DRAFT
+  SENT
+  QUOTED
+  CLOSED
+}
+
+/// You send Mike estimated volumes; he comes back with tiered pricing.
+model Rfq {
+  id        String    @id @default(cuid())
+  ref       Int       @unique @default(autoincrement())
+  vendorId  String
+  vendor    Vendor    @relation(fields: [vendorId], references: [id])
+  status    RfqStatus @default(DRAFT)
+  sentAt    DateTime?
+  notes     String?
+  createdAt DateTime  @default(now())
+
+  lines  RfqLine[]
+  quotes Quote[]
+}
+
+model RfqLine {
+  id     String        @id @default(cuid())
+  rfqId  String
+  rfq    Rfq           @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  specId String
+  spec   PackagingSpec @relation(fields: [specId], references: [specId])
+  /// Volume tiers you want priced, e.g. [500000, 1000000, 2000000]
+  qtyTiers Int[]
+  notes    String?
+}
+
+model Quote {
+  id         String    @id @default(cuid())
+  ref        Int       @unique @default(autoincrement())
+  rfqId      String?
+  rfq        Rfq?      @relation(fields: [rfqId], references: [id])
+  vendorId   String
+  vendor     Vendor    @relation(fields: [vendorId], references: [id])
+  receivedAt DateTime  @default(now())
+  validUntil DateTime?
+  accepted   Boolean   @default(false)
+  notes      String?
+  fileLink   String?
+
+  lines          QuoteLine[]
+  purchaseOrders PurchaseOrder[]
+}
+
+/// Mike prices by material at a volume tier, not per flavour — every stick film
+/// line on PO 42826 is $0.0749, every protein pouch $0.506. So price attaches to
+/// the spec. skuOverride exists for the exception case.
+model QuoteLine {
+  id           String        @id @default(cuid())
+  quoteId      String
+  quote        Quote         @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  specId       String
+  spec         PackagingSpec @relation(fields: [specId], references: [specId])
+  skuOverride  String?
+  qtyBreak     Int
+  unitPrice    Decimal       @db.Decimal(12, 6)
+  leadTimeDays Int?
+  notes        String?
+
+  @@index([specId, qtyBreak])
+}
+
+// ---------------------------------------------------------- purchase orders
+
+enum PoStatus {
+  DRAFT
+  SENT
+  ACKNOWLEDGED
+  IN_PRODUCTION
+  PARTIALLY_RECEIVED
+  RECEIVED
+  CLOSED
+  CANCELLED
+}
+
+enum PoLineStatus {
+  ORDERED
+  ART_APPROVED
+  PLATES_MADE
+  IN_PRODUCTION
+  SHIPPED
+  RECEIVED
+  QC_PASSED
+  STOCKED
+  CANCELLED
+}
+
+model PurchaseOrder {
+  id String @id @default(cuid())
+  /// MMDDYY date code, assigned once when the PO is sent. Never hand-typed.
+  poNumber String? @unique
+  poDate   DateTime?
+  sentAt   DateTime?
+
+  vendorId String
+  vendor   Vendor @relation(fields: [vendorId], references: [id])
+  quoteId  String?
+  quote    Quote? @relation(fields: [quoteId], references: [id])
+
+  category     String?
+  status       PoStatus @default(DRAFT)
+  authorizedBy String?
+  shipTo       String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  lines POLine[]
+
+  @@index([status])
+}
+
+model POLine {
+  id     String        @id @default(cuid())
+  poId   String
+  po     PurchaseOrder @relation(fields: [poId], references: [id], onDelete: Cascade)
+  lineNo Int
+  sku    String?
+  product Product?     @relation(fields: [sku], references: [sku])
+  specId String?
+  spec   PackagingSpec? @relation(fields: [specId], references: [specId])
+
+  /// Free-text description retained from legacy imports only.
+  description String?
+  qty         Int
+  unitCost    Decimal @db.Decimal(12, 6)
+
+  /// Ticked = line stays visible, money leaves the total.
+  excluded      Boolean @default(false)
+  exclusionNote String?
+
+  lineStatus PoLineStatus @default(ORDERED)
+
+  // vendor timing — quoted vs promised vs actual
+  quotedLeadTimeDays Int?
+  promisedDate       DateTime?
+  actualShipDate     DateTime?
+  actualReceiptDate  DateTime?
+  qtyReceived        Int?
+  qcStatus           String?
+  location           String?
+
+  promiseLog PromiseLogEntry[]
+
+  @@index([poId])
+  @@index([sku])
+  @@index([lineStatus])
+}
+
+/// Every time Mike moves a date, it is written down here.
+model PromiseLogEntry {
+  id           String    @id @default(cuid())
+  poLineId     String
+  poLine       POLine    @relation(fields: [poLineId], references: [id], onDelete: Cascade)
+  previousDate DateTime?
+  newDate      DateTime
+  changedAt    DateTime  @default(now())
+  reason       String?
+
+  @@index([poLineId])
+}
+
+// ------------------------------------------------------------------ system
+
+/// Binary assets uploaded through Settings — the ProDough ® logo for the PO
+/// header, primarily. Stored in Postgres because Railway's filesystem is
+/// ephemeral across deploys.
+model AppAsset {
+  key       String   @id
+  mimeType  String
+  filename  String?
+  data      Bytes
+  width     Int?
+  height    Int?
+  updatedAt DateTime @updatedAt
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  kind      String
+  sentAt    DateTime @default(now())
+  userId    String?
+  payload   Json?
+  succeeded Boolean  @default(true)
+
+  @@index([kind, sentAt])
+}

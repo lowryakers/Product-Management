@@ -37,6 +37,17 @@ that does (Specright) is an enterprise implementation, not a purchase.
 
 ---
 
+## The app
+
+It's built. `app/` is a deployable Node + Postgres web app — capture, triage,
+118-SKU catalog, purchase orders with correct totals, PO PDFs with the ® logo,
+push notifications, and an installable phone app.
+
+- **[DEPLOY.md](DEPLOY.md)** — step-by-step Railway setup, ~20 minutes
+- **[app/README.md](app/README.md)** — architecture, commands, what's not built yet
+
+---
+
 ## Read in this order
 
 | Doc | What's in it |

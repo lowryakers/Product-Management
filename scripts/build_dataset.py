@@ -179,12 +179,18 @@ def base_flavor(flavor):
     return f.strip()
 
 
+APP_DATA = os.path.join(ROOT, "app", "data")
+
+
 def write(name, fieldnames, rows):
-    path = os.path.join(OUT, name)
-    with open(path, "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=fieldnames)
-        w.writeheader()
-        w.writerows(rows)
+    # Written twice: data/ is the canonical dataset, app/data/ is the copy the
+    # deployed seed reads (Railway builds with app/ as its root).
+    targets = [OUT] + ([APP_DATA] if os.path.isdir(APP_DATA) else [])
+    for target in targets:
+        with open(os.path.join(target, name), "w", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=fieldnames)
+            w.writeheader()
+            w.writerows(rows)
     print(f"  wrote {name:<28} {len(rows):>4} rows")
 
 
@@ -331,14 +337,43 @@ ALIASES = {
 }
 
 
+def po_line_to_product_line(description):
+    """Map a PO line's free-text description onto a product_line.
+
+    Keying on flavour alone is not enough: 'Chocolate' exists as a pancake mix,
+    a crepe mix and a cupcake mix, all in the same POUCH format. Without the
+    product type in the key they collide and the later one silently wins.
+    """
+    d = description.upper()
+    if 'WHEY' in d:
+        return 'Whey Protein'
+    if 'BEEF' in d:
+        return 'Beef Protein'
+    if 'PLANT' in d:
+        return 'Plant Protein'
+    if 'PANCAKE' in d:
+        return 'Pancake Mix'
+    if 'CREPE' in d:
+        return 'Crepe Mix'
+    if 'CUPCAKE' in d:
+        return 'Cupcake Mix'
+    if 'DONUT' in d:
+        return 'Donut Mix'
+    if 'OATMEAL' in d:
+        return 'Oatmeal Cup'
+    if 'GF FLOUR' in d or 'GLUTEN' in d:
+        return 'Gluten Free Flour'
+    if 'DAILY RECHARGE' in d or 'RECHARGE' in d:
+        return 'Daily Recharge'
+    return None
+
+
 def build_pos(products):
+    # Keyed on (product_line, format, base_flavor) — the product type has to be
+    # part of the key or pancake/crepe/cupcake "Chocolate" all collapse together.
     index = {}
     for p in products:
-        line = p["product_line"]
-        key_line = ("WHEY" if line == "Whey Protein" else
-                    "BEEF" if line == "Beef Protein" else
-                    "PLANT" if line == "Plant Protein" else "OTHER")
-        index[(key_line, p["format"].upper(), norm(p["base_flavor"]))] = p["sku"]
+        index[(p["product_line"], p["format"].upper(), norm(p["base_flavor"]))] = p["sku"]
 
     pos, lines, issues = [], [], []
 
@@ -370,18 +405,19 @@ def build_pos(products):
                 continue
             n += 1
             du = desc.upper()
-            key_line = ("WHEY" if "WHEY" in du else "BEEF" if "BEEF" in du
-                        else "PLANT" if "PLANT" in du else "OTHER")
+            prod_line = po_line_to_product_line(desc)
             fmt = "STICK" if ("STICK" in du or "FILM" in du) else "POUCH"
             nf = norm(flav)
             nf = ALIASES.get(nf, nf)
-            sku = index.get((key_line, fmt, nf), "")
-            if not sku:
-                # OTHER-line products live under Pouch/Box/Cup formats
-                for f2 in ("POUCH", "BOX", "CUP", "STICK"):
-                    sku = index.get(("OTHER", f2, nf), "")
-                    if sku:
-                        break
+            sku = index.get((prod_line, fmt, nf), "") if prod_line else ""
+            if not sku and prod_line:
+                # single-SKU lines (GF flour) name the product, not a flavour
+                candidates = [
+                    p for p in products
+                    if p["product_line"] == prod_line and p["format"].upper() == fmt
+                ]
+                if len(candidates) == 1:
+                    sku = candidates[0]["sku"]
             if not sku:
                 issues.append(
                     dict(severity="Critical", area="PO", sku="", flavor=str(flav).strip(),
