@@ -45,6 +45,7 @@ that does (Specright) is an enterprise implementation, not a purchase.
 | **[02 — Does this already exist?](docs/02-does-this-already-exist.md)** | Honest landscape: PIMs, Specright, Ziflow, procurement tools, Airtable. What to buy, what to skip, why. |
 | **[03 — The system](docs/03-the-system.md)** | Nine tables, every field, the formulas, the views, the automations worth having. |
 | **[04 — Rollout](docs/04-rollout.md)** | Four weeks. Capture first, catalogue second, transactions third. How this dies and how to stop it. |
+| **[05 — How it works](docs/05-how-it-works.md)** | End-to-end flow. Four real journeys traced with your SKUs, who logs in, automatic vs. you, what a normal week costs. |
 
 ---
 
