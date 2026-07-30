@@ -124,8 +124,12 @@ Click **Update Variables**. Railway redeploys.
 1. App service → **Settings** tab
 2. Scroll to **Networking**
 3. Under **Public Networking**, click **Generate Domain**
-4. If it asks for a port, enter `3000`
-5. You get something like `product-management-production.up.railway.app`
+4. You get something like `product-management-production.up.railway.app`
+5. **Check the target port.** Click the pencil/edit icon on the domain you just
+   generated. It must read **3000** — the port the app listens on. Railway does
+   not always guess this correctly, and a wrong value is the single most likely
+   reason the site will not load. Do the same for any custom domain you add
+   later.
 
 Copy that URL. Go back to **Variables** → **Raw Editor** and add one line — your
 actual URL, with `https://` and **no** trailing slash:
@@ -289,6 +293,13 @@ Nine times out of ten it is the database reference.
 
 **Health check fails but the app looks fine** — Railway may be probing the wrong
 port. Settings → Networking → make sure the domain targets port `3000`.
+
+**Railway's "Application failed to respond" page, but the deploy is green** —
+the domain's target port does not match the app's. Open **Deploy Logs** and find
+the `LISTENING ON PORT nnnn` banner, then **Settings → Networking**, click the
+pencil on the domain, and set the target port to that number. No redeploy
+needed. Health checks can pass while this is wrong, because Railway checks the
+container by a different route than the public domain uses.
 
 **Push does nothing on iPhone** — you are opening it from a Safari tab instead
 of the home screen icon. iOS blocks notifications from tabs.
