@@ -271,6 +271,13 @@ terminal — ask me and I will add an in-app reload button instead.
 Logs** (not Deploy Logs) and read the first red line. The build now uses a
 Dockerfile, so this should be rare. Send me the log and I will read it.
 
+**"The executable `uvicorn` could not be found"** — Railway autodetected Python
+from the `scripts/*.py` files at the repo root when the project was first
+created, and saved a Python start command on the service. `railway.json` now
+sets `startCommand` explicitly, which overrides it. If it somehow persists:
+service → **Settings** → **Deploy** → **Custom Start Command** → clear it, or
+set it to `npm run start`.
+
 **Every page 500s, or logs say "Can't reach database server"** — `DATABASE_URL`
 is not wired up. Step 3b. Check the reference name matches your Postgres card's
 exact name.
