@@ -1,12 +1,12 @@
 import webpush from 'web-push';
 import { prisma } from '../db';
-import { env, pushEnabled } from '../env';
+import { env, runtime, pushEnabled } from '../env';
 
 let configured = false;
 
 function configure() {
   if (configured || !pushEnabled()) return;
-  webpush.setVapidDetails(env.vapidSubject, env.vapidPublicKey, env.vapidPrivateKey);
+  webpush.setVapidDetails(env.vapidSubject, runtime.vapidPublicKey, runtime.vapidPrivateKey);
   configured = true;
 }
 

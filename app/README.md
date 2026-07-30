@@ -91,6 +91,26 @@ One subtlety worth preserving: `missing_spec` tests for *no usable* spec, not
 placeholders so the 29-SKU gap stays visible, so a null test reports 2 when the
 real answer is 31.
 
+## First-boot bootstrap
+
+`src/bootstrap.ts` runs before the server listens so that deploying needs no
+shell access to the container:
+
+- **Session secret** — from `SESSION_SECRET` if set, else read from the
+  `Setting` table, else generated and stored. Resolved before the cookie plugin
+  registers, which is why `bootstrapSecrets()` is a separate entry point.
+- **VAPID keys** — same precedence. Generated once and persisted, because
+  regenerating them silently unsubscribes every phone.
+- **Seed** — runs only when `User.count()` is zero, so it can never duplicate
+  or overwrite a live database. The temporary password goes to stdout, which is
+  the Railway deploy log.
+
+All three are idempotent. Verified: a second boot re-seeds nothing, rotates
+nothing, and existing sessions survive.
+
+The seed logic lives in `src/lib/seed.ts` so both the CLI (`prisma/seed.ts`)
+and the boot path share it.
+
 ## Three behaviours worth knowing
 
 **Excluded PO lines.** `POLine.excluded` keeps a line visible while removing its

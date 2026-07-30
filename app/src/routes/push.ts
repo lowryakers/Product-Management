@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { prisma } from '../db';
-import { env, pushEnabled } from '../env';
+import { runtime, pushEnabled } from '../env';
 import { requireUser } from '../auth';
 import { sendPush } from '../lib/push';
 
@@ -8,7 +8,7 @@ export function registerPushRoutes(app: FastifyInstance) {
   /** The browser needs the public VAPID key before it can subscribe. */
   app.get('/api/push/key', async (req, reply) => {
     if (!pushEnabled()) return reply.send({ enabled: false });
-    return reply.send({ enabled: true, key: env.vapidPublicKey });
+    return reply.send({ enabled: true, key: runtime.vapidPublicKey });
   });
 
   app.post('/api/push/subscribe', async (req, reply) => {

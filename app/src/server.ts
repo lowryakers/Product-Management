@@ -5,7 +5,7 @@ import formbody from '@fastify/formbody';
 import multipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
 
-import { env } from './env';
+import { env, runtime } from './env';
 import { prisma } from './db';
 import { registerAuthHook, registerAuthRoutes, requireUser } from './auth';
 import { registerInboxRoutes } from './routes/inbox';
@@ -19,6 +19,7 @@ import {
   runMondayDigest,
   runLateVendorCheck,
 } from './scheduler';
+import { bootstrap, bootstrapSecrets } from './bootstrap';
 import { html } from './lib/html';
 import { layout } from './views/layout';
 
@@ -29,7 +30,9 @@ async function main() {
     bodyLimit: 5 * 1024 * 1024,
   });
 
-  await app.register(cookie, { secret: env.sessionSecret });
+  // Must resolve before the cookie plugin reads it.
+  await bootstrapSecrets();
+  await app.register(cookie, { secret: runtime.sessionSecret });
   await app.register(formbody);
   await app.register(multipart, { limits: { fileSize: 3 * 1024 * 1024, files: 1 } });
   await app.register(fastifyStatic, {
@@ -104,6 +107,10 @@ async function main() {
       `),
     );
   });
+
+  // Generates push keys and seeds the catalog on a fresh database, so a
+  // deploy needs no shell access.
+  await bootstrap();
 
   startScheduler();
 

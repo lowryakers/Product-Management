@@ -4,8 +4,11 @@ import { promisify } from 'node:util';
 // Read the secret lazily rather than importing ./env, so the seed script can use
 // hashPassword() without a full server environment.
 function secret(): string {
-  const s = process.env.SESSION_SECRET;
-  if (!s) throw new Error('SESSION_SECRET is required for signing');
+  // Lazy require avoids a circular import at module load; the value is set by
+  // bootstrapSecrets() before anything signs.
+  const { runtime } = require('../env') as typeof import('../env');
+  const s = runtime.sessionSecret || process.env.SESSION_SECRET;
+  if (!s) throw new Error('Session secret is not initialised');
   return s;
 }
 

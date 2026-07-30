@@ -554,6 +554,15 @@ model PromiseLogEntry {
 
 // ------------------------------------------------------------------ system
 
+/// Small key/value runtime configuration that must survive a redeploy —
+/// currently the auto-generated VAPID push keys, so nobody has to run a
+/// command in a terminal to turn notifications on.
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 /// Binary assets uploaded through Settings — the ProDough ® logo for the PO
 /// header, primarily. Stored in Postgres because Railway's filesystem is
 /// ephemeral across deploys.

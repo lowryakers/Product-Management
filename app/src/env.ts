@@ -15,8 +15,10 @@ export const env = {
 
   databaseUrl: required('DATABASE_URL'),
 
-  /// Signs session cookies and approval tokens. Rotate and everyone logs out.
-  sessionSecret: required('SESSION_SECRET'),
+  /// Signs session cookies and approval tokens. Optional: if unset, one is
+  /// generated on first boot and stored in the database. Setting it explicitly
+  /// still wins. Changing it signs everyone out.
+  sessionSecret: process.env.SESSION_SECRET || '',
 
   /// Public origin, used to build approval links you text to Danny.
   publicUrl: optional('PUBLIC_URL', '').replace(/\/$/, ''),
@@ -44,4 +46,16 @@ export const env = {
   seedStaffPassword: process.env.SEED_STAFF_PASSWORD || '',
 };
 
-export const pushEnabled = () => Boolean(env.vapidPublicKey && env.vapidPrivateKey);
+/**
+ * VAPID keys may come from the environment or be generated on first boot and
+ * stored in the database, so they are runtime state rather than static config.
+ * Populated by bootstrap() before the server starts listening.
+ */
+export const runtime = {
+  vapidPublicKey: env.vapidPublicKey,
+  vapidPrivateKey: env.vapidPrivateKey,
+  sessionSecret: env.sessionSecret,
+};
+
+export const pushEnabled = () =>
+  Boolean(runtime.vapidPublicKey && runtime.vapidPrivateKey);
