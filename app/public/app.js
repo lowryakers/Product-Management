@@ -137,6 +137,20 @@
   renderPending();
   if (navigator.onLine) flushQueue();
 
+  // ------------------------------------------------------ password reveal
+  var reveal = document.querySelector('[data-reveal-pw]');
+  if (reveal) {
+    reveal.addEventListener('change', function () {
+      var form = document.getElementById('pw-form');
+      if (!form) return;
+      var type = reveal.checked ? 'text' : 'password';
+      ['current', 'next'].forEach(function (id) {
+        var el = form.querySelector('#' + id);
+        if (el) el.type = type;
+      });
+    });
+  }
+
   // ---------------------------------------------------------------- push
   function urlBase64ToUint8Array(base64String) {
     var padding = '='.repeat((4 - (base64String.length % 4)) % 4);

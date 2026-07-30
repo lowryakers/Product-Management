@@ -903,3 +903,19 @@ table.grid .bad {
 .activefilters {
   margin-bottom: var(--s2);
 }
+
+/* Password reveal — browsers pre-fill current-password with stale values and
+   the user cannot see it behind the dots. */
+.reveal {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.reveal input {
+  width: auto;
+  margin: 0;
+}

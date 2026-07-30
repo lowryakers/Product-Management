@@ -10,7 +10,7 @@
  * only runs when there are zero users.
  */
 
-import { randomBytes } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import webpush from 'web-push';
 import { prisma } from './db';
 import { env, runtime } from './env';
@@ -18,6 +18,7 @@ import { env, runtime } from './env';
 const VAPID_PUBLIC = 'vapid_public_key';
 const VAPID_PRIVATE = 'vapid_private_key';
 const SESSION_SECRET = 'session_secret';
+const RESET_APPLIED = 'password_reset_applied';
 
 async function getSetting(key: string): Promise<string | null> {
   const row = await prisma.setting.findUnique({ where: { key } });
@@ -129,6 +130,18 @@ export async function maybePasswordReset(): Promise<void> {
   if (!env.resetPasswordTo) return;
 
   const email = (env.resetPasswordEmail || env.seedOwnerEmail).toLowerCase();
+
+  // One-shot. Without this, forgetting to delete the variable silently reverts
+  // the password on every deploy — including a password changed in Settings
+  // afterwards, which is baffling from the outside.
+  const fingerprint = createHash('sha256')
+    .update(`${email}:${env.resetPasswordTo}`)
+    .digest('hex');
+  if ((await getSetting(RESET_APPLIED)) === fingerprint) {
+    console.log('  RESET_PASSWORD_TO already applied — skipping. Safe to delete the variable.');
+    return;
+  }
+
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
     console.error(`  RESET_PASSWORD_TO is set but no account exists for ${email}`);
@@ -142,6 +155,7 @@ export async function maybePasswordReset(): Promise<void> {
   });
   // Any session signed with the old credential is no longer trustworthy.
   await prisma.session.deleteMany({ where: { userId: user.id } });
+  await setSetting(RESET_APPLIED, fingerprint);
 
   console.log('');
   console.log('  ┌──────────────────────────────────────────────────────────');
@@ -172,6 +186,16 @@ export async function bootstrap(): Promise<void> {
     );
   }
 
+  // Seed first: on a brand-new database there is no account for a reset to
+  // target, so running the reset before the seed made it a silent no-op.
+  try {
+    await maybeSeed();
+  } catch (err) {
+    // A failed seed must not stop the app from serving; the catalog can always
+    // be loaded later with `npm run seed`.
+    console.error('  Seed on first boot failed:', err instanceof Error ? err.message : err);
+  }
+
   try {
     await maybePasswordReset();
   } catch (err) {
@@ -179,13 +203,5 @@ export async function bootstrap(): Promise<void> {
       '  Password reset failed:',
       err instanceof Error ? err.message : err,
     );
-  }
-
-  try {
-    await maybeSeed();
-  } catch (err) {
-    // A failed seed must not stop the app from serving; the catalog can always
-    // be loaded later with `npm run seed`.
-    console.error('  Seed on first boot failed:', err instanceof Error ? err.message : err);
   }
 }

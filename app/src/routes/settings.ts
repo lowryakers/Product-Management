@@ -98,7 +98,13 @@ export function registerSettingsRoutes(app: FastifyInstance) {
         <hr class="divider" />
 
         <h2>Change your password</h2>
-        <form method="post" action="/account/password">
+        <p class="lede">
+          Safari and Chrome will often pre-fill the current password box with an
+          older saved value. Tick <em>Show</em> and check it actually says what you
+          think before submitting — a wrong value here is rejected and the change
+          silently does not happen.
+        </p>
+        <form method="post" action="/account/password" id="pw-form">
           <div class="field">
             <label class="label" for="current">Current password</label>
             <input id="current" name="current" type="password" autocomplete="current-password" required />
@@ -107,6 +113,12 @@ export function registerSettingsRoutes(app: FastifyInstance) {
             <label class="label" for="next">New password</label>
             <input id="next" name="next" type="password" autocomplete="new-password" minlength="10" required />
             <p class="hint">At least 10 characters.</p>
+          </div>
+          <div class="field">
+            <label class="reveal">
+              <input type="checkbox" data-reveal-pw />
+              <span>Show what I have typed</span>
+            </label>
           </div>
           <button class="btn btn-ghost" type="submit">Update password</button>
         </form>
