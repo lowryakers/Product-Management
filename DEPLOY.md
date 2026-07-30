@@ -269,6 +269,32 @@ terminal — ask me and I will add an in-app reload button instead.
 
 ---
 
+## Locked out — resetting a password
+
+There is no email in this deployment, so a forgotten or mistyped password would
+otherwise lock you out permanently. The way back in:
+
+1. Variables → **Raw Editor** → add a line, choosing your own value:
+   ```
+   RESET_PASSWORD_TO=SomethingOnlyYouKnow
+   ```
+   Add `RESET_PASSWORD_EMAIL=marnee@powder-ops.com` too if you are resetting
+   someone else. Without it, it resets `SEED_OWNER_EMAIL`.
+2. **Update Variables** and wait for the redeploy.
+3. The deploy log confirms it:
+   ```
+   ┌──────────────────────────────────────────────────────────
+   │  PASSWORD RESET
+   │    lowry@powder-ops.com can now sign in with RESET_PASSWORD_TO
+   └──────────────────────────────────────────────────────────
+   ```
+4. Sign in with that value.
+5. **Delete the `RESET_PASSWORD_TO` variable.** A password sitting in the
+   environment is a standing risk, and leaving it there resets the account on
+   every future deploy.
+
+---
+
 ## When something breaks
 
 **Build fails in a few seconds, "Failed to build an image"** — open **Build

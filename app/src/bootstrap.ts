@@ -118,6 +118,42 @@ export async function bootstrapSecrets(): Promise<void> {
 }
 
 /**
+ * Emergency password reset. There is no email in this deployment, so a
+ * forgotten or mistyped password would otherwise lock the account out
+ * permanently. Setting RESET_PASSWORD_TO and redeploying resets it.
+ *
+ * Deliberately loud in the log, and deliberately requires deleting the variable
+ * afterwards — a password sitting in the environment is a standing risk.
+ */
+export async function maybePasswordReset(): Promise<void> {
+  if (!env.resetPasswordTo) return;
+
+  const email = (env.resetPasswordEmail || env.seedOwnerEmail).toLowerCase();
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    console.error(`  RESET_PASSWORD_TO is set but no account exists for ${email}`);
+    return;
+  }
+
+  const { hashPassword } = await import('./lib/crypto.js');
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { passwordHash: await hashPassword(env.resetPasswordTo) },
+  });
+  // Any session signed with the old credential is no longer trustworthy.
+  await prisma.session.deleteMany({ where: { userId: user.id } });
+
+  console.log('');
+  console.log('  ┌──────────────────────────────────────────────────────────');
+  console.log('  │  PASSWORD RESET');
+  console.log(`  │    ${email} can now sign in with RESET_PASSWORD_TO`);
+  console.log('  │');
+  console.log('  │  DELETE the RESET_PASSWORD_TO variable once you are in.');
+  console.log('  └──────────────────────────────────────────────────────────');
+  console.log('');
+}
+
+/**
  * Runs after the server is already listening, so it must never throw — an
  * unhandled rejection here would kill a process that is otherwise healthy and
  * serving. Every failure is logged and swallowed; the app keeps running with
@@ -132,6 +168,15 @@ export async function bootstrap(): Promise<void> {
   } catch (err) {
     console.error(
       '  Could not set up push keys:',
+      err instanceof Error ? err.message : err,
+    );
+  }
+
+  try {
+    await maybePasswordReset();
+  } catch (err) {
+    console.error(
+      '  Password reset failed:',
       err instanceof Error ? err.message : err,
     );
   }

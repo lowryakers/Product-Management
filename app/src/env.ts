@@ -37,6 +37,12 @@ export const env = {
   /// Protects the cron HTTP endpoints if you drive them externally.
   cronSecret: process.env.CRON_SECRET || '',
 
+  /// Emergency password reset. Set RESET_PASSWORD_TO (and optionally
+  /// RESET_PASSWORD_EMAIL) as a variable, redeploy, sign in, then delete the
+  /// variable. Without email there is otherwise no way back in.
+  resetPasswordTo: process.env.RESET_PASSWORD_TO || '',
+  resetPasswordEmail: (process.env.RESET_PASSWORD_EMAIL || '').toLowerCase(),
+
   /// Seed credentials, used only by `npm run seed`.
   seedOwnerEmail: optional('SEED_OWNER_EMAIL', 'lowry@powder-ops.com'),
   seedOwnerName: optional('SEED_OWNER_NAME', 'Lowry Akers'),
