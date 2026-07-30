@@ -108,14 +108,27 @@ async function main() {
     );
   });
 
-  // Generates push keys and seeds the catalog on a fresh database, so a
-  // deploy needs no shell access.
-  await bootstrap();
-
   startScheduler();
 
   await app.listen({ port: env.port, host: env.host });
-  app.log.info(`ProDough PM listening on ${env.host}:${env.port} (tz ${env.tz})`);
+
+  // Loud and unmissable in the deploy log: if the platform routes to a
+  // different port than this, the domain will not resolve to the app.
+  console.log('');
+  console.log('  ════════════════════════════════════════════════');
+  console.log(`   LISTENING ON PORT ${env.port}`);
+  console.log(`   host ${env.host} · tz ${env.tz}`);
+  console.log('  ════════════════════════════════════════════════');
+  console.log('');
+
+  // Deliberately after listen(), not before: generating keys and seeding the
+  // catalog is ~500 sequential upserts, and against a network-attached
+  // database that is slow enough that health checks would fail while the port
+  // was still closed. Serving an empty catalog for a few seconds on the very
+  // first boot is the better trade.
+  // bootstrap() swallows its own errors, but catch here too: an unhandled
+  // rejection would terminate a process that is already serving traffic.
+  void bootstrap().catch((err) => app.log.error({ err }, 'bootstrap failed'));
 }
 
 for (const sig of ['SIGINT', 'SIGTERM'] as const) {

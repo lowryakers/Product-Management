@@ -117,10 +117,23 @@ export async function bootstrapSecrets(): Promise<void> {
   console.log('  Generated and stored a session secret.');
 }
 
+/**
+ * Runs after the server is already listening, so it must never throw — an
+ * unhandled rejection here would kill a process that is otherwise healthy and
+ * serving. Every failure is logged and swallowed; the app keeps running with
+ * push disabled and/or an empty catalog, both of which are recoverable.
+ */
 export async function bootstrap(): Promise<void> {
-  const vapid = await ensureVapidKeys();
-  if (vapid === 'generated') {
-    console.log('  Generated and stored a VAPID key pair — push is ready to enable.');
+  try {
+    const vapid = await ensureVapidKeys();
+    if (vapid === 'generated') {
+      console.log('  Generated and stored a VAPID key pair — push is ready to enable.');
+    }
+  } catch (err) {
+    console.error(
+      '  Could not set up push keys:',
+      err instanceof Error ? err.message : err,
+    );
   }
 
   try {
