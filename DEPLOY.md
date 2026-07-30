@@ -127,8 +127,8 @@ just run `npm run seed` again — it's safe to re-run and will print a new one.
 To add your assistant at the same time, set these first, then re-run the seed:
 
 ```
-SEED_STAFF_EMAIL=assistant@powder-ops.com
-SEED_STAFF_NAME=Marnee
+SEED_STAFF_EMAIL=marnee@powder-ops.com
+SEED_STAFF_NAME=Marnee Dortch
 ```
 
 Leave the password variable out and one gets generated and printed. You can also
