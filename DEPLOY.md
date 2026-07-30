@@ -12,7 +12,7 @@ Anywhere below that says *run a command*, use Railway's shell: open your service
 
 1. Go to **railway.app** → **New Project**
 2. **Deploy from GitHub repo** → pick `lowryakers/Product-Management`
-3. When it asks for a branch, choose `claude/prodough-product-management-worndg`
+3. Branch: **`main`**
 
 Railway will immediately try to build and **it will fail.** That's expected —
 it's looking at the repo root and the app lives in a subfolder. Next step fixes it.
@@ -189,7 +189,7 @@ this size. The app idles at low memory and the database is tiny — 118 products
 
 ## Redeploying
 
-Push to the branch and Railway rebuilds automatically. Migrations apply on boot
+Push to `main` and Railway rebuilds automatically. Migrations apply on boot
 via `prisma migrate deploy`. You do **not** need to re-run the seed — it's only
 for the initial load.
 
