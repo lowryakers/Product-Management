@@ -26,25 +26,19 @@ avoids deploying the wrong branch by accident.
 4. Pick `lowryakers/Product-Management`
 5. Branch: **`main`**
 
-Railway starts building immediately and **the first build will fail**. That is
-expected — it is looking at the repo root, and the app lives in a subfolder.
-Step 2 fixes it. Ignore the red X.
+Railway starts building. It may fail on this first attempt because there is no
+database yet — that is fine, keep going.
 
 ---
 
-## 2. Point it at the app folder
+## 2. Root Directory — nothing to do
 
-The step people miss.
+Earlier versions of this guide told you to set **Root Directory** to `app`. You
+no longer need to. The repo carries a Dockerfile at both the root and in `app/`,
+so the build works whether that setting is empty or set to `app`.
 
-1. Click your service card (the one named after the repo)
-2. **Settings** tab
-3. Scroll to the **Source** section
-4. Find **Root Directory** — it will be empty
-5. Type `app`
-6. Press Enter / click the checkmark to save
-
-Railway redeploys on its own. It may still fail here because there is no
-database yet — that is fine, keep going.
+If you already set it to `app`, leave it. If it is empty, leave it. Either is
+correct.
 
 ---
 
@@ -273,7 +267,9 @@ terminal — ask me and I will add an in-app reload button instead.
 
 ## When something breaks
 
-**First build failed** — expected before Root Directory is set to `app`. Step 2.
+**Build fails in a few seconds, "Failed to build an image"** — open **Build
+Logs** (not Deploy Logs) and read the first red line. The build now uses a
+Dockerfile, so this should be rare. Send me the log and I will read it.
 
 **Every page 500s, or logs say "Can't reach database server"** — `DATABASE_URL`
 is not wired up. Step 3b. Check the reference name matches your Postgres card's
