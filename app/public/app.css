@@ -670,3 +670,236 @@ body.is-offline .offline-banner {
     transition: none !important;
   }
 }
+
+/* ---------------------------------------------------- catalog explorer */
+
+.searchbar {
+  margin-bottom: var(--s2);
+}
+
+.chiprow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-bottom: var(--s3);
+}
+
+.fchip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  line-height: 1.25;
+  padding: 0.34rem 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--raised);
+  color: var(--muted);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fchip b {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+.fchip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fchip.is-on {
+    color: #16130f;
+  }
+}
+
+.fchip.is-on b {
+  opacity: 0.8;
+}
+
+.fchip.is-saved {
+  border-style: dashed;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+
+.panel {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 0 var(--s3);
+  margin-bottom: var(--s3);
+}
+
+.panel > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  cursor: pointer;
+  list-style: none;
+  padding: var(--s2) 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel > summary::after {
+  content: '+';
+  margin-left: auto;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.panel[open] > summary::after {
+  content: '−';
+}
+
+.panel[open] {
+  padding-bottom: var(--s3);
+}
+
+.panel .label {
+  margin: var(--s3) 0 var(--s1);
+}
+
+.panel .label:first-of-type {
+  margin-top: var(--s2);
+}
+
+.resultbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.resultbar b {
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.saveform {
+  display: flex;
+  gap: var(--s1);
+  align-items: center;
+}
+
+.saveform input {
+  width: 10.5rem;
+  padding: 0.32rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+.grouphead {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 0.86rem;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: var(--s4) 0 var(--s2);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--rule);
+}
+
+table.grid {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+table.grid th,
+table.grid td {
+  text-align: left;
+  padding: 0.42rem 0.7rem 0.42rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+table.grid th {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom-color: var(--ink);
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 2;
+}
+
+table.grid th a {
+  color: inherit;
+  text-decoration: none;
+}
+
+table.grid th.is-sorted a {
+  color: var(--accent);
+}
+
+table.grid th.num,
+table.grid td.num {
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  padding-right: var(--s3);
+}
+
+table.grid td.sticky-col {
+  position: sticky;
+  left: 0;
+  background: var(--paper);
+  padding-right: var(--s3);
+  z-index: 1;
+}
+
+table.grid td.sticky-col a {
+  text-decoration: none;
+}
+
+table.grid tbody tr:hover td {
+  background: var(--raised);
+}
+
+table.grid .bad {
+  color: var(--crit);
+  font-weight: 600;
+}
+
+.swatch {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+  flex: none;
+  display: inline-block;
+}
+
+.activefilters {
+  margin-bottom: var(--s2);
+}

@@ -93,6 +93,18 @@ function toArea(v: string): InboxArea {
   return (AREA_VALUES.has(key) ? key : 'OTHER') as InboxArea;
 }
 
+/** GS1 check digit — stored on Product so views can filter on it. */
+function gtinValid(gtin: string | null): boolean {
+  if (!gtin || !/^\d+$/.test(gtin)) return false;
+  if (![8, 12, 13, 14].includes(gtin.length)) return false;
+  const body = gtin.slice(0, -1);
+  let total = 0;
+  for (let i = 0; i < body.length; i++) {
+    total += Number(body[body.length - 1 - i]) * (i % 2 === 0 ? 3 : 1);
+  }
+  return (10 - (total % 10)) % 10 === Number(gtin[gtin.length - 1]);
+}
+
 const PRIORITY_VALUES = new Set(['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']);
 function toPriority(v: string): Priority {
   const key = (v || '').toUpperCase();
@@ -227,6 +239,7 @@ async function main() {
   for (const p of products) {
     const data = {
       gtin: str(p.gtin),
+      gtinValid: gtinValid(str(p.gtin)),
       productLine: p.product_line,
       format: fmt(p.format),
       flavor: p.flavor,

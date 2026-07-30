@@ -67,6 +67,30 @@ writes both — don't edit `app/data/` by hand.
 
 ---
 
+## The catalog explorer
+
+`/products` is the ad-hoc view engine — the Airtable-like part. The entire view
+state (search, filters, sort, grouping, visible columns) lives in the
+querystring, which means every view is bookmarkable and shareable, and a
+**saved view is just a stored querystring** — no extra machinery.
+
+- **11 condition filters** — no usable spec, GTIN invalid, no colours, invalid
+  hex, stick with no eyemark, has open changes, on order, never ordered, needs
+  review, no artwork. Multiple filters intersect.
+- **Facet filters** on product line, format, status, spec, with live counts
+- **Sort** on any sortable column, **group** by line/format/status/spec/flavour
+- **Column picker** — 18 available, 6 shown by default
+- **CSV export** of exactly what is on screen
+- **Saved views** per user, surfaced as chips at the top
+
+Adding a filter is one entry in `FLAGS` in `src/lib/query.ts` — a label and a
+Prisma `where` fragment. Adding a column is one entry in `COLUMNS`.
+
+One subtlety worth preserving: `missing_spec` tests for *no usable* spec, not
+`specId IS NULL`. `SPEC-BOX-DONUT` and `SPEC-CUP-OAT` exist as deliberate
+placeholders so the 29-SKU gap stays visible, so a null test reports 2 when the
+real answer is 31.
+
 ## Three behaviours worth knowing
 
 **Excluded PO lines.** `POLine.excluded` keeps a line visible while removing its

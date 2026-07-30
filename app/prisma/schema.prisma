@@ -35,6 +35,7 @@ model User {
 
   sessions          Session[]
   pushSubscriptions PushSubscription[]
+  savedViews        SavedView[]
   loggedItems       InboxItem[]        @relation("logger")
   ownedItems        InboxItem[]        @relation("owner")
   approvedArtwork   ArtworkVersion[]   @relation("artworkApprover")
@@ -144,6 +145,9 @@ model Product {
   /// Retired code kept so historic POs and Shopify orders still resolve.
   legacySku        String?
   gtin             String?       @unique
+  /// Stored rather than computed so it can be filtered and grouped on.
+  /// Maintained by the seed and by any write path that touches gtin.
+  gtinValid        Boolean       @default(false)
   productLine      String
   format           PackFormat
   flavor           String
@@ -561,6 +565,23 @@ model AppAsset {
   width     Int?
   height    Int?
   updatedAt DateTime @updatedAt
+}
+
+/// A named filter/sort/group configuration, so an ad-hoc question you ask twice
+/// becomes a saved view instead of a rebuilt query.
+model SavedView {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  table     String   @default("products")
+  /// Serialized querystring, e.g. "line=Whey+Protein&flag=missing_spec&sort=sku"
+  query     String
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, table, name])
+  @@index([userId, table])
 }
 
 model NotificationLog {
