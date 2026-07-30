@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { prisma } from '../db';
 import { requireUser, requireOwner } from '../auth';
-import { hashPassword } from '../lib/crypto';
+import { hashPassword, verifyPassword } from '../lib/crypto';
 import { html, raw } from '../lib/html';
 import { layout, flash } from '../views/layout';
 import { pushEnabled } from '../env';
@@ -200,7 +200,6 @@ export function registerSettingsRoutes(app: FastifyInstance) {
     const user = requireUser(req, reply);
     if (!user) return;
     const b = req.body as Record<string, string>;
-    const { verifyPassword } = await import('../lib/crypto');
 
     const record = await prisma.user.findUnique({ where: { id: user.id } });
     if (!record || !(await verifyPassword(b.current || '', record.passwordHash))) {

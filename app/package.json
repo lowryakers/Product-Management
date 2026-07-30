@@ -2,7 +2,7 @@
   "name": "prodough-pm",
   "version": "0.1.0",
   "private": true,
-  "description": "ProDough product management — SKUs, specs, artwork, NFPs, quotes, POs",
+  "description": "ProDough product management \u2014 SKUs, specs, artwork, NFPs, quotes, POs",
   "engines": {
     "node": ">=20"
   },
@@ -26,13 +26,13 @@
     "@prisma/client": "^5.22.0",
     "fastify": "^4.28.1",
     "pdfkit": "^0.15.0",
+    "prisma": "^5.22.0",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
     "@types/pdfkit": "^0.13.4",
     "@types/web-push": "^3.6.3",
-    "prisma": "^5.22.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
