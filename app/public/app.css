@@ -1080,3 +1080,53 @@ table.grid .bad {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* ------------------------------------------------- bulk SKU linking */
+
+/* Each bulk action is its own tiny form; strip the block-level spacing so a
+   row of them reads as a single set of chips. */
+.bulk-form {
+  display: inline;
+  margin: 0;
+}
+
+.bulk-form button.fchip {
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.skuchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-top: var(--s2);
+}
+
+.skuchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.26rem 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--raised);
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skuchip span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.skuchip:hover {
+  border-color: var(--crit);
+}
+
+.skuchip:hover span {
+  color: var(--crit);
+}

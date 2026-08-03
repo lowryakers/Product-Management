@@ -5,6 +5,7 @@ import { requireUser } from '../auth';
 import { html, raw, Html } from '../lib/html';
 import { layout, emptyState, flash } from '../views/layout';
 import { tip } from '../views/tips';
+import { buildWhere, parseView } from '../lib/query';
 
 const AREAS: Array<[InboxArea, string]> = [
   ['ARTWORK', 'Artwork'],
@@ -320,7 +321,7 @@ export function registerInboxRoutes(app: FastifyInstance) {
     });
     if (!item) return reply.code(404).type('text/html').send(notFound(user));
 
-    const [users, matches, siblings] = await Promise.all([
+    const [users, matches, siblings, lineFacets, formatFacets] = await Promise.all([
       prisma.user.findMany({ orderBy: { name: 'asc' } }),
       q && q.trim()
         ? prisma.product.findMany({
@@ -344,9 +345,32 @@ export function registerInboxRoutes(app: FastifyInstance) {
             orderBy: { sku: 'asc' },
           })
         : Promise.resolve([]),
+      prisma.product.groupBy({
+        by: ['productLine'],
+        _count: { _all: true },
+        orderBy: { productLine: 'asc' },
+      }),
+      prisma.product.groupBy({
+        by: ['format'],
+        _count: { _all: true },
+        orderBy: { format: 'asc' },
+      }),
     ]);
 
     const linkedSkus = new Set(item.products.map((p) => p.sku));
+    const proteinLines = lineFacets.filter((l) => l.productLine.includes('Protein'));
+    const proteinTotal = proteinLines.reduce((n, l) => n + l._count._all, 0);
+    const allTotal = lineFacets.reduce((n, l) => n + l._count._all, 0);
+
+    /** One small POST form per bulk-link button, carrying filter params. */
+    const bulkLink = (label: string, count: number, params: Array<[string, string]>) => html`
+      <form method="post" action="/inbox/${item.id}/link-query" class="bulk-form">
+        ${params.map(
+          ([k, v]) => html`<input type="hidden" name="${k}" value="${v}" />`,
+        )}
+        <button class="fchip" type="submit">${label} <b>${count}</b></button>
+      </form>
+    `;
 
     return reply.type('text/html').send(
       layout({ title: `INB-${String(item.ref).padStart(4, '0')}`, nav: 'triage', user }, html`
@@ -434,32 +458,49 @@ export function registerInboxRoutes(app: FastifyInstance) {
 
         <hr class="divider" />
 
-        <h2>Linked SKUs</h2>
+        <h2>Linked SKUs ${item.products.length ? html`<span class="count-pill">${item.products.length}</span>` : raw('')}</h2>
+
+        <p class="label">Link a whole group</p>
+        <div class="chiprow">
+          ${bulkLink('All protein lines', proteinTotal, proteinLines.map((l) => ['line', l.productLine] as [string, string]))}
+          ${lineFacets.map((l) => bulkLink(l.productLine, l._count._all, [['line', l.productLine]]))}
+        </div>
+        <div class="chiprow">
+          ${formatFacets.map((f) =>
+            bulkLink(titleCaseWord(f.format) + 's', f._count._all, [['format', f.format]]),
+          )}
+          ${bulkLink('Every SKU', allTotal, [])}
+        </div>
+
         ${item.products.length === 0
           ? html`<p class="lede">
-              None yet. Danny says one flavour; it is often two or more SKUs.
+              Nothing linked yet. Danny says one flavour; it is often two SKUs — and
+              sometimes it is the whole protein range.
             </p>`
           : html`
-              <ul class="list">
-                ${item.products.map(
-                  (p) => html`
-                    <li>
-                      <div class="row" style="display:flex;justify-content:space-between;gap:var(--s2)">
-                        <span><code>${p.sku}</code> ${p.flavor}</span>
-                        <form method="post" action="/inbox/${item.id}/unlink">
-                          <input type="hidden" name="sku" value="${p.sku}" />
-                          <button class="btn btn-quiet btn-sm" type="submit">Remove</button>
-                        </form>
-                      </div>
-                    </li>
-                  `,
-                )}
-              </ul>
+              <details class="panel" ${item.products.length <= 12 ? raw('open') : raw('')}>
+                <summary>${item.products.length} linked — tap to review</summary>
+                <div class="skuchips">
+                  ${item.products.map(
+                    (p) => html`
+                      <form method="post" action="/inbox/${item.id}/unlink" class="bulk-form">
+                        <input type="hidden" name="sku" value="${p.sku}" />
+                        <button class="skuchip" type="submit" title="Unlink ${p.sku}">
+                          <code>${p.sku}</code> <span aria-hidden="true">✕</span>
+                        </button>
+                      </form>
+                    `,
+                  )}
+                </div>
+                <form method="post" action="/inbox/${item.id}/unlink-all" style="margin-top:var(--s3)">
+                  <button class="btn btn-danger btn-sm" type="submit">Unlink all</button>
+                </form>
+              </details>
             `}
 
         <form method="get" action="/inbox/${item.id}">
           <div class="field">
-            <label class="label" for="q">Find a SKU to link</label>
+            <label class="label" for="q">Or search for specific SKUs</label>
             <input
               id="q"
               name="q"
@@ -472,6 +513,12 @@ export function registerInboxRoutes(app: FastifyInstance) {
 
         ${matches.length
           ? html`
+              <form method="post" action="/inbox/${item.id}/link-query" class="bulk-form" style="margin-bottom:var(--s2)">
+                <input type="hidden" name="q" value="${q ?? ''}" />
+                <button class="btn btn-ghost btn-sm" type="submit">
+                  Link all ${matches.length} matching “${q}”
+                </button>
+              </form>
               <form method="post" action="/inbox/${item.id}/link">
                 <ul class="list">
                   ${matches.map(
@@ -571,6 +618,46 @@ export function registerInboxRoutes(app: FastifyInstance) {
     return reply.redirect(302, `/inbox/${id}`);
   });
 
+  /**
+   * Bulk link using the same filter grammar as the catalog explorer, so
+   * "every whey, beef and plant protein SKU" is one tap rather than 76.
+   */
+  app.post('/inbox/:id/link-query', async (req, reply) => {
+    const user = requireUser(req, reply);
+    if (!user) return;
+    const { id } = req.params as { id: string };
+
+    const view = parseView((req.body ?? {}) as Record<string, unknown>);
+    const skus = await prisma.product.findMany({
+      where: buildWhere(view),
+      select: { sku: true },
+    });
+    if (skus.length) {
+      await prisma.inboxItem.update({
+        where: { id },
+        data: { products: { connect: skus.map((s) => ({ sku: s.sku })) } },
+      });
+    }
+    return reply.redirect(302, `/inbox/${id}`);
+  });
+
+  app.post('/inbox/:id/unlink-all', async (req, reply) => {
+    const user = requireUser(req, reply);
+    if (!user) return;
+    const { id } = req.params as { id: string };
+    const item = await prisma.inboxItem.findUnique({
+      where: { id },
+      include: { products: { select: { sku: true } } },
+    });
+    if (item?.products.length) {
+      await prisma.inboxItem.update({
+        where: { id },
+        data: { products: { disconnect: item.products.map((p) => ({ sku: p.sku })) } },
+      });
+    }
+    return reply.redirect(302, `/inbox/${id}`);
+  });
+
   app.post('/inbox/:id/unlink', async (req, reply) => {
     const user = requireUser(req, reply);
     if (!user) return;
@@ -659,6 +746,10 @@ function itemList(
       )}
     </ul>
   `;
+}
+
+function titleCaseWord(s: string): string {
+  return s.charAt(0) + s.slice(1).toLowerCase();
 }
 
 function asArray(v: unknown): string[] {
