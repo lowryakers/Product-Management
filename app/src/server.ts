@@ -13,6 +13,7 @@ import { registerProductRoutes } from './routes/products';
 import { registerPoRoutes } from './routes/pos';
 import { registerPushRoutes } from './routes/push';
 import { registerSettingsRoutes } from './routes/settings';
+import { registerGuideRoutes } from './routes/guide';
 import {
   startScheduler,
   runTriageNudge,
@@ -51,6 +52,7 @@ async function main() {
   registerPoRoutes(app);
   registerPushRoutes(app);
   registerSettingsRoutes(app);
+  registerGuideRoutes(app);
 
   app.get('/healthz', async () => {
     await prisma.$queryRaw`SELECT 1`;

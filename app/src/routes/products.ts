@@ -4,6 +4,7 @@ import { prisma } from '../db';
 import { requireUser } from '../auth';
 import { html, raw, Html } from '../lib/html';
 import { layout, emptyState, flash } from '../views/layout';
+import { tip } from '../views/tips';
 import {
   COLUMNS,
   DEFAULT_COLS,
@@ -119,6 +120,16 @@ export function registerProductRoutes(app: FastifyInstance) {
     return reply.type('text/html').send(
       layout({ title: 'SKUs', nav: 'catalog', user }, html`
         ${(req.query as any)?.saved ? flash('ok', 'View saved.') : raw('')}
+        ${tip({
+          key: 'skus-v1',
+          title: 'This is where you ask questions',
+          body: html`<p>
+            Open <strong>Filters</strong> and pick a condition — "No usable spec",
+            "Has material on order", "Stick with no eyemark". They combine. If you
+            find yourself running the same one twice, name it and hit
+            <strong>Save</strong>.
+          </p>`,
+        })}
 
         <form method="get" action="/products" class="searchbar">
           ${view.line.map((x) => html`<input type="hidden" name="line" value="${x}" />`)}
@@ -376,6 +387,15 @@ export function registerProductRoutes(app: FastifyInstance) {
         <p class="eyebrow">${product.productLine} · ${titleCase(product.format)}</p>
         <h1>${product.flavor}</h1>
 
+        ${tip({
+          key: 'sku-detail-v1',
+          title: 'Check "On order" before approving any change',
+          body: html`<p>
+            If there is material already bought, changing the artwork means running it
+            out or scrapping it. Scroll down for the other SKUs sharing this flavour —
+            a change here probably touches those too.
+          </p>`,
+        })}
         <div class="stat-row">
           <div class="stat ${product.gtinValid ? 'stat-ok' : 'stat-crit'}">
             <b style="font-size:.95rem">${product.gtin ?? '—'}</b>

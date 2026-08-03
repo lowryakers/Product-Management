@@ -1,6 +1,7 @@
 import { html, raw, Html } from '../lib/html';
+import { tipHideScript } from './tips';
 
-export type NavKey = 'capture' | 'triage' | 'catalog' | 'pos' | 'more' | 'none';
+export type NavKey = 'capture' | 'triage' | 'catalog' | 'pos' | 'guide' | 'more' | 'none';
 
 interface LayoutOpts {
   title: string;
@@ -36,6 +37,12 @@ const NAV: Array<{ key: NavKey; href: string; label: string; icon: Html }> = [
     label: 'Orders',
     icon: raw('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l1 5H5zM5 8h14v13H5z"/><path d="M9 12h6"/></svg>'),
   },
+  {
+    key: 'guide',
+    href: '/guide',
+    label: 'Guide',
+    icon: raw('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4z"/><path d="M20 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z"/></svg>'),
+  },
 ];
 
 export function layout(opts: LayoutOpts, body: Html): string {
@@ -57,6 +64,7 @@ export function layout(opts: LayoutOpts, body: Html): string {
 <link rel="icon" href="/icons/icon-192.png">
 <link rel="stylesheet" href="/app.css">
 <title>${escapeTitle(title)}</title>
+${tipHideScript.value}
 ${opts.head ? opts.head.value : ''}
 </head>
 <body${bare ? ' class="bare"' : ''}>

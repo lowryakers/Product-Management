@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import { requireUser } from '../auth';
 import { html, raw } from '../lib/html';
 import { layout, emptyState } from '../views/layout';
+import { tip } from '../views/tips';
 import { renderPoPdf, poNumberForDate } from '../lib/po-pdf';
 import { LOGO_KEY } from './settings';
 
@@ -21,6 +22,15 @@ export function registerPoRoutes(app: FastifyInstance) {
 
     return reply.type('text/html').send(
       layout({ title: 'Purchase orders', nav: 'pos', user }, html`
+        ${tip({
+          key: 'orders-v1',
+          title: 'Excluded lines stay visible but leave the total',
+          body: html`<p>
+            Open a PO and tap <strong>Download PDF</strong> to get the document you
+            send to Mike. Lines marked excluded print struck through and are not
+            counted — the fix for the $24,850 your spreadsheets were overstating.
+          </p>`,
+        })}
         ${pos.length === 0
           ? emptyState('No purchase orders', 'Imported POs will appear here.')
           : html`

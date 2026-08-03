@@ -4,6 +4,7 @@ import { prisma } from '../db';
 import { requireUser } from '../auth';
 import { html, raw, Html } from '../lib/html';
 import { layout, emptyState, flash } from '../views/layout';
+import { tip } from '../views/tips';
 
 const AREAS: Array<[InboxArea, string]> = [
   ['ARTWORK', 'Artwork'],
@@ -106,6 +107,14 @@ export function registerInboxRoutes(app: FastifyInstance) {
 
     return reply.type('text/html').send(
       layout({ title: 'Today', nav: 'triage', user }, html`
+        ${tip({
+          key: 'today-v1',
+          title: 'Start here each morning',
+          body: html`<p>
+            <strong>To triage</strong> is the only number you have to keep at zero.
+            Ten minutes with coffee clears it. Everything else can wait.
+          </p>`,
+        })}
         <div class="stat-row">
           <div class="stat stat-accent"><b>${newCount}</b><span>To triage</span></div>
           <div class="stat"><b>${openCount}</b><span>Open</span></div>
@@ -147,6 +156,15 @@ export function registerInboxRoutes(app: FastifyInstance) {
     return reply.type('text/html').send(
       layout({ title: 'Capture', nav: 'capture', user }, html`
         ${saved ? flash('ok', 'Logged. Triage it later — you are done here.') : raw('')}
+        ${tip({
+          key: 'capture-v1',
+          title: 'Do not think, just log it',
+          body: html`<p>
+            Only <strong>what was said</strong> is required — leave the rest blank if
+            you are unsure. Tap the microphone on your keyboard and dictate their
+            words, not your interpretation. You sort it out at triage.
+          </p>`,
+        })}
         <p class="lede">
           Ten seconds. Only the last field is required — leave anything you are unsure
           about blank and sort it out at triage.
@@ -337,6 +355,15 @@ export function registerInboxRoutes(app: FastifyInstance) {
           ${label(CHANNELS, item.channel)} · ${relativeDay(item.createdAt)}
         </p>
 
+        ${tip({
+          key: 'triage-v1',
+          title: 'Three things and you are done',
+          body: html`<p>
+            Link the <strong>SKUs</strong> it affects (the app will offer siblings —
+            one flavour is often two products), write <strong>what you decided</strong>,
+            and set an <strong>owner</strong>. Then mark it Triaged.
+          </p>`,
+        })}
         <div class="rawnote">
           <span class="rawnote-label">What was said — never edited</span>
           ${item.rawNote}

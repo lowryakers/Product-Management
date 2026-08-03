@@ -137,6 +137,43 @@
   renderPending();
   if (navigator.onLine) flushQueue();
 
+  // ------------------------------------------------------------- tips
+  var TIPS_KEY = 'pd_tips_dismissed';
+
+  function dismissedTips() {
+    try {
+      return JSON.parse(localStorage.getItem(TIPS_KEY) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest && ev.target.closest('[data-tip-dismiss]');
+    if (!btn) return;
+    var key = btn.getAttribute('data-tip-dismiss');
+    var list = dismissedTips();
+    if (list.indexOf(key) === -1) list.push(key);
+    try {
+      localStorage.setItem(TIPS_KEY, JSON.stringify(list));
+    } catch (e) {
+      /* private mode — the tip just reappears next visit */
+    }
+    var card = document.querySelector('[data-tip="' + key + '"]');
+    if (card) card.remove();
+  });
+
+  var resetTips = document.querySelector('[data-tips-reset]');
+  if (resetTips) {
+    resetTips.addEventListener('click', function () {
+      try {
+        localStorage.removeItem(TIPS_KEY);
+      } catch (e) {}
+      resetTips.textContent = 'Tips will show again';
+      resetTips.disabled = true;
+    });
+  }
+
   // ------------------------------------------------------ password reveal
   var reveal = document.querySelector('[data-reveal-pw]');
   if (reveal) {

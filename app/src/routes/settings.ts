@@ -37,6 +37,19 @@ export function registerSettingsRoutes(app: FastifyInstance) {
 
         <hr class="divider" />
 
+        <h2>Help</h2>
+        <p class="lede">
+          The walkthrough explains the daily rhythm and what each tab is for.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-ghost" href="/guide">Open the guide</a>
+          <button class="btn btn-ghost" type="button" data-tips-reset>
+            Show the tips again
+          </button>
+        </div>
+
+        <hr class="divider" />
+
         <h2>Notifications</h2>
         ${pushEnabled()
           ? html`

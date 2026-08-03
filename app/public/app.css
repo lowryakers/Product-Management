@@ -919,3 +919,164 @@ table.grid .bad {
   width: auto;
   margin: 0;
 }
+
+/* ---------------------------------------------------- coach marks / tips */
+
+.tip {
+  border: 1px solid var(--accent);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  padding: var(--s3);
+  margin-bottom: var(--s3);
+}
+
+.tip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-bottom: var(--s1);
+}
+
+.tip-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tip-x {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  cursor: pointer;
+  border-radius: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tip-x:hover {
+  color: var(--ink);
+}
+
+.tip-title {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0 0 0.25rem;
+  line-height: 1.3;
+}
+
+.tip-body p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+
+.tip-more {
+  display: inline-block;
+  margin-top: var(--s2);
+  font-size: 0.87rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------- guide */
+
+.rule-card {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: var(--s2) var(--s3);
+  align-items: start;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s3);
+  margin-bottom: var(--s2);
+  background: var(--raised);
+}
+
+.rule-n {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+  margin: 0;
+}
+
+.rule-t {
+  font-size: 1.02rem;
+  font-weight: 650;
+  margin: 0 0 0.2rem;
+}
+
+.rule-b {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.callout {
+  border-left: 3px solid var(--accent);
+  background: var(--raised);
+  padding: var(--s3);
+  margin: var(--s3) 0;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.taboverview {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s3);
+  border-top: 1px solid var(--rule);
+}
+
+.taboverview li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.15rem;
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.93rem;
+}
+
+@media (min-width: 30rem) {
+  .taboverview li {
+    grid-template-columns: 5.5rem 1fr;
+    gap: var(--s3);
+    align-items: baseline;
+  }
+}
+
+.tab-name {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tasklist {
+  padding-left: 1.15rem;
+  margin: 0 0 var(--s3);
+}
+
+.tasklist li {
+  margin-bottom: var(--s3);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.tasklist a {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-weight: 600;
+  text-decoration: none;
+}
