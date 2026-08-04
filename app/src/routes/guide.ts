@@ -146,6 +146,31 @@ export function registerGuideRoutes(app: FastifyInstance) {
 
         <hr class="divider" />
 
+        <h2>When something new needs codes</h2>
+        <p>
+          A new flavour needs two codes, and two different people make them: someone
+          else invents the SKU, you allocate the GS1 number. That split is built in.
+          Start a request on <a href="/codes">New codes</a> and the app proposes both,
+          reading the patterns out of the ${products} codes you already have.
+        </p>
+        <p>
+          Every suggestion comes with its reasoning and any warning — the abbreviation
+          this flavour already uses elsewhere, whether those letters already mean
+          something else, how full the GS1 prefix is. Nothing is applied silently.
+        </p>
+        <div class="callout">
+          <strong>You do not need to give anyone an account.</strong> Create a share
+          link scoped to the SKU and text it. They see the flavour and the suggested
+          code, and can accept it or type their own. The link cannot touch the GTIN,
+          and it expires.
+        </div>
+        <p class="lede">
+          Nothing becomes a real product until both codes are agreed — then one button
+          creates the catalogue row.
+        </p>
+
+        <hr class="divider" />
+
         <h2>Try these three things today</h2>
 
         <ol class="tasklist">

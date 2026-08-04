@@ -25,12 +25,12 @@ enum Role {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String    @id @default(cuid())
+  email        String    @unique
   name         String
-  role         Role     @default(STAFF)
+  role         Role      @default(STAFF)
   passwordHash String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime  @default(now())
   lastSeenAt   DateTime?
 
   sessions          Session[]
@@ -39,6 +39,9 @@ model User {
   loggedItems       InboxItem[]        @relation("logger")
   ownedItems        InboxItem[]        @relation("owner")
   approvedArtwork   ArtworkVersion[]   @relation("artworkApprover")
+  requestedCodes    CodeRequest[]      @relation("codeRequester")
+  skuTasks          CodeRequest[]      @relation("skuAssignee")
+  gtinTasks         CodeRequest[]      @relation("gtinAssignee")
 }
 
 model Session {
@@ -141,19 +144,19 @@ enum ProductStatus {
 }
 
 model Product {
-  sku              String        @id
+  sku              String         @id
   /// Retired code kept so historic POs and Shopify orders still resolve.
   legacySku        String?
-  gtin             String?       @unique
+  gtin             String?        @unique
   /// Stored rather than computed so it can be filtered and grouped on.
   /// Maintained by the seed and by any write path that touches gtin.
-  gtinValid        Boolean       @default(false)
+  gtinValid        Boolean        @default(false)
   productLine      String
   format           PackFormat
   flavor           String
   /// What joins a flavour across formats. "Double Chocolate" is five SKUs.
   baseFlavor       String
-  status           ProductStatus @default(ACTIVE)
+  status           ProductStatus  @default(ACTIVE)
   specId           String?
   spec             PackagingSpec? @relation(fields: [specId], references: [specId])
   shopifySku       String?
@@ -162,11 +165,11 @@ model Product {
   mrpFormulaId     String?
   formulaRev       String?
   eyemarkColor     String?
-  dielineRequired  Boolean       @default(true)
+  dielineRequired  Boolean        @default(true)
   dataQualityFlag  String?
   notes            String?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   colors          SkuColor[]
   artworkVersions ArtworkVersion[]
@@ -237,36 +240,113 @@ enum Priority {
 
 /// The door. Everything enters here.
 model InboxItem {
-  id        String  @id @default(cuid())
-  ref       Int     @unique @default(autoincrement())
+  id       String  @id @default(cuid())
+  ref      Int     @unique @default(autoincrement())
   /// Client-generated id so an offline capture replayed twice is not duplicated.
-  clientId  String? @unique
+  clientId String? @unique
 
-  createdAt        DateTime      @default(now())
-  loggedById       String?
-  loggedBy         User?         @relation("logger", fields: [loggedById], references: [id])
-  sourceContactId  String?
-  sourceContact    Contact?      @relation(fields: [sourceContactId], references: [id])
-  channel          InboxChannel  @default(TEXT)
-  area             InboxArea     @default(OTHER)
+  createdAt       DateTime     @default(now())
+  loggedById      String?
+  loggedBy        User?        @relation("logger", fields: [loggedById], references: [id])
+  sourceContactId String?
+  sourceContact   Contact?     @relation(fields: [sourceContactId], references: [id])
+  channel         InboxChannel @default(TEXT)
+  area            InboxArea    @default(OTHER)
 
   /// Exactly what was said. Never edited — this is the record.
-  rawNote   String
+  rawNote  String
   /// Your interpretation. Written at triage, not at capture.
-  decision  String?
+  decision String?
 
   ownerId   String?
-  owner     User?        @relation("owner", fields: [ownerId], references: [id])
+  owner     User?       @relation("owner", fields: [ownerId], references: [id])
   dueDate   DateTime?
-  status    InboxStatus  @default(NEW)
-  priority  Priority     @default(MEDIUM)
+  status    InboxStatus @default(NEW)
+  priority  Priority    @default(MEDIUM)
   triagedAt DateTime?
   closedAt  DateTime?
 
-  products Product[] @relation("inboxProducts")
+  products     Product[]     @relation("inboxProducts")
+  codeRequests CodeRequest[]
 
   @@index([status])
   @@index([createdAt])
+}
+
+// ------------------------------------------------------------ new codes
+
+enum CodeRequestStatus {
+  OPEN
+  /// Both codes agreed, waiting to be turned into a Product row.
+  READY
+  CREATED
+  CANCELLED
+}
+
+/// Who a share link lets in, and for what. A link scoped to SKU cannot touch
+/// the GTIN even if the person guesses the form field.
+enum ShareScope {
+  SKU
+  GTIN
+  BOTH
+}
+
+/// A product that does not exist yet and needs codes before it can.
+///
+/// Deliberately two tasks in one row, because that is how the work actually
+/// splits: someone else invents the SKU, Lowry allocates the GS1 number. Each
+/// side can be assigned to a signed-in person or handed out as a link to
+/// someone who will never have an account.
+model CodeRequest {
+  id  String @id @default(cuid())
+  ref Int    @unique @default(autoincrement())
+
+  productLine String
+  format      PackFormat
+  baseFlavor  String
+  /// Full retail name, if it differs from the base flavour.
+  flavor      String?
+  notes       String?
+
+  /// What the suggester proposed, and why. Kept even after a human overrides
+  /// it — a rejected suggestion is the useful half of the record.
+  suggestedSku  String?
+  skuBasis      String?
+  suggestedGtin String?
+  gtinBasis     String?
+
+  sku               String?
+  skuSetAt          DateTime?
+  /// Free text: a share-link user has no account to point at.
+  skuSetBy          String?
+  skuAssigneeUserId String?
+  skuAssignee       User?     @relation("skuAssignee", fields: [skuAssigneeUserId], references: [id])
+  skuAssigneeName   String?
+
+  gtin               String?
+  gtinSetAt          DateTime?
+  gtinSetBy          String?
+  gtinAssigneeUserId String?
+  gtinAssignee       User?     @relation("gtinAssignee", fields: [gtinAssigneeUserId], references: [id])
+  gtinAssigneeName   String?
+
+  shareToken     String?    @unique
+  shareScope     ShareScope @default(SKU)
+  shareExpiresAt DateTime?
+  shareOpenedAt  DateTime?
+
+  status      CodeRequestStatus @default(OPEN)
+  createdById String?
+  createdBy   User?             @relation("codeRequester", fields: [createdById], references: [id])
+  inboxItemId String?
+  inboxItem   InboxItem?        @relation(fields: [inboxItemId], references: [id])
+  /// Set once the request has been turned into a real catalogue row.
+  productSku  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
 }
 
 // ---------------------------------------------------------------- artwork
@@ -337,7 +417,7 @@ model NfpVersion {
   label   String
 
   createdByContactId String?
-  createdBy          Contact?  @relation("nfpAuthor", fields: [createdByContactId], references: [id])
+  createdBy          Contact? @relation("nfpAuthor", fields: [createdByContactId], references: [id])
   sourceFormulaRev   String?
   /// Panel values as captured (calories, protein, serving size, ...).
   panelData          Json?
@@ -366,16 +446,16 @@ model NfpVersion {
 
 /// Pointer to the MRP plus the two checkboxes that drive the cascade.
 model Formula {
-  id                 String   @id @default(cuid())
+  id                 String    @id @default(cuid())
   mrpFormulaId       String
   rev                String
   effectiveDate      DateTime?
   changedByContactId String?
-  changedBy          Contact? @relation("formulaAuthor", fields: [changedByContactId], references: [id])
+  changedBy          Contact?  @relation("formulaAuthor", fields: [changedByContactId], references: [id])
   changeSummary      String?
-  nfpImpact          Boolean  @default(false)
-  artworkImpact      Boolean  @default(false)
-  createdAt          DateTime @default(now())
+  nfpImpact          Boolean   @default(false)
+  artworkImpact      Boolean   @default(false)
+  createdAt          DateTime  @default(now())
 
   products Product[] @relation("formulaProducts")
 
@@ -407,11 +487,11 @@ model Rfq {
 }
 
 model RfqLine {
-  id     String        @id @default(cuid())
-  rfqId  String
-  rfq    Rfq           @relation(fields: [rfqId], references: [id], onDelete: Cascade)
-  specId String
-  spec   PackagingSpec @relation(fields: [specId], references: [specId])
+  id       String        @id @default(cuid())
+  rfqId    String
+  rfq      Rfq           @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  specId   String
+  spec     PackagingSpec @relation(fields: [specId], references: [specId])
   /// Volume tiers you want priced, e.g. [500000, 1000000, 2000000]
   qtyTiers Int[]
   notes    String?
@@ -478,16 +558,16 @@ enum PoLineStatus {
 }
 
 model PurchaseOrder {
-  id String @id @default(cuid())
+  id       String    @id @default(cuid())
   /// MMDDYY date code, assigned once when the PO is sent. Never hand-typed.
-  poNumber String? @unique
+  poNumber String?   @unique
   poDate   DateTime?
   sentAt   DateTime?
 
   vendorId String
-  vendor   Vendor @relation(fields: [vendorId], references: [id])
+  vendor   Vendor  @relation(fields: [vendorId], references: [id])
   quoteId  String?
-  quote    Quote? @relation(fields: [quoteId], references: [id])
+  quote    Quote?  @relation(fields: [quoteId], references: [id])
 
   category     String?
   status       PoStatus @default(DRAFT)
@@ -503,14 +583,14 @@ model PurchaseOrder {
 }
 
 model POLine {
-  id     String        @id @default(cuid())
-  poId   String
-  po     PurchaseOrder @relation(fields: [poId], references: [id], onDelete: Cascade)
-  lineNo Int
-  sku    String?
-  product Product?     @relation(fields: [sku], references: [sku])
-  specId String?
-  spec   PackagingSpec? @relation(fields: [specId], references: [specId])
+  id      String         @id @default(cuid())
+  poId    String
+  po      PurchaseOrder  @relation(fields: [poId], references: [id], onDelete: Cascade)
+  lineNo  Int
+  sku     String?
+  product Product?       @relation(fields: [sku], references: [sku])
+  specId  String?
+  spec    PackagingSpec? @relation(fields: [specId], references: [specId])
 
   /// Free-text description retained from legacy imports only.
   description String?

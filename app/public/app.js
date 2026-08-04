@@ -174,6 +174,28 @@
     });
   }
 
+  // ------------------------------------------------------- copy to clipboard
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest && ev.target.closest('[data-copy]');
+    if (!btn) return;
+    var text = btn.getAttribute('data-copy');
+    var done = function () {
+      var was = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(function () {
+        btn.textContent = was;
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {
+        window.prompt('Copy this link', text);
+      });
+    } else {
+      // Older iOS Safari in standalone mode has no clipboard API.
+      window.prompt('Copy this link', text);
+    }
+  });
+
   // ------------------------------------------------------ password reveal
   var reveal = document.querySelector('[data-reveal-pw]');
   if (reveal) {

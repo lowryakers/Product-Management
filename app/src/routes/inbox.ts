@@ -6,6 +6,7 @@ import { html, raw, Html } from '../lib/html';
 import { layout, emptyState, flash } from '../views/layout';
 import { tip } from '../views/tips';
 import { buildWhere, parseView } from '../lib/query';
+import { newRequestForm } from './codes';
 
 const AREAS: Array<[InboxArea, string]> = [
   ['ARTWORK', 'Artwork'],
@@ -321,7 +322,7 @@ export function registerInboxRoutes(app: FastifyInstance) {
     });
     if (!item) return reply.code(404).type('text/html').send(notFound(user));
 
-    const [users, matches, siblings, lineFacets, formatFacets] = await Promise.all([
+    const [users, matches, siblings, lineFacets, formatFacets, codeRequests] = await Promise.all([
       prisma.user.findMany({ orderBy: { name: 'asc' } }),
       q && q.trim()
         ? prisma.product.findMany({
@@ -355,6 +356,7 @@ export function registerInboxRoutes(app: FastifyInstance) {
         _count: { _all: true },
         orderBy: { format: 'asc' },
       }),
+      prisma.codeRequest.findMany({ where: { inboxItemId: id }, orderBy: { createdAt: 'asc' } }),
     ]);
 
     const linkedSkus = new Set(item.products.map((p) => p.sku));
@@ -497,6 +499,43 @@ export function registerInboxRoutes(app: FastifyInstance) {
                 </form>
               </details>
             `}
+
+        ${item.area === 'NEW_SKU' || codeRequests.length
+          ? html`
+              <hr class="divider" />
+              <h2>Codes for a product that does not exist yet</h2>
+              ${codeRequests.length
+                ? html`
+                    <ul class="list">
+                      ${codeRequests.map(
+                        (c) => html`
+                          <li>
+                            <a class="row" href="/codes/${c.id}">
+                              <span class="row-top">
+                                <span class="badge${c.sku && c.gtin ? ' badge-ok' : ''}"
+                                  >${c.status.toLowerCase()}</span
+                                >
+                                <span class="row-ref">NEW-${String(c.ref).padStart(4, '0')}</span>
+                              </span>
+                              <p class="row-note">${c.baseFlavor} — ${c.productLine}</p>
+                              <span class="row-meta">
+                                <span>SKU ${c.sku ?? 'not set'}</span>
+                                <span>GTIN ${c.gtin ?? 'not set'}</span>
+                              </span>
+                            </a>
+                          </li>
+                        `,
+                      )}
+                    </ul>
+                  `
+                : html`<p class="lede">
+                    This is a request for something new, so there is no SKU to link. Raise a
+                    code request instead — the app proposes both codes and you can hand the
+                    SKU half to whoever names them.
+                  </p>`}
+              ${newRequestForm(item.id)}
+            `
+          : raw('')}
 
         <form method="get" action="/inbox/${item.id}">
           <div class="field">

@@ -269,7 +269,8 @@ export function registerProductRoutes(app: FastifyInstance) {
 
         <div class="resultbar">
           <span
-            ><b>${rows.length}</b> of ${total}${nFilters ? ' · filtered' : ''}</span
+            ><b>${rows.length}</b> of ${total}${nFilters ? ' · filtered' : ''}
+            · <a href="/codes">new codes</a></span
           >
           ${!isBlank(qs)
             ? html`

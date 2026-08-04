@@ -53,7 +53,8 @@ prisma/schema.prisma   the data model — start here
 prisma/seed.ts         CSV import, idempotent
 src/server.ts          wiring
 src/auth.ts            sessions, login, role checks
-src/routes/            inbox · products · pos · push · settings
+src/routes/            inbox · products · codes · pos · push · settings · guide
+src/lib/codes.ts       SKU and GTIN suggestion
 src/lib/po-pdf.ts      purchase order rendering
 src/scheduler.ts       daily nudge, Monday digest, late-vendor check
 src/views/layout.ts    page shell and nav
@@ -90,6 +91,42 @@ One subtlety worth preserving: `missing_spec` tests for *no usable* spec, not
 `specId IS NULL`. `SPEC-BOX-DONUT` and `SPEC-CUP-OAT` exist as deliberate
 placeholders so the 29-SKU gap stays visible, so a null test reports 2 when the
 real answer is 31.
+
+---
+
+## New codes
+
+`/codes` is where a product that doesn't exist yet gets its two codes. The split
+is deliberate: **someone else invents the SKU, Lowry allocates the GS1 number**,
+so a `CodeRequest` row carries two independently assignable tasks rather than one
+owner.
+
+`src/lib/codes.ts` proposes both, reading the patterns out of the live catalogue
+rather than from a hardcoded rule — see [docs/06](../docs/06-code-standard.md)
+for what those patterns actually are. Every suggestion returns `{value, basis,
+warnings, alternates}` and all four are rendered. The basis is not decoration: 37
+of 118 existing abbreviations disagree with plain initials, so a proposal you
+can't interrogate is a proposal you shouldn't accept.
+
+Two things the suggester gets right that the spreadsheets didn't:
+
+- **Serials are unique per prefix, not per product line.** Whey took `PP` 01–30,
+  then plant took 21–24 over the top. Next is 31 regardless of which line asks.
+- **GS1 capacity is visible.** `850046726` is 76/100 full. When a line already
+  uses more than one prefix the roomiest wins, and anything under 25 free warns.
+
+### Handing the SKU half to someone without an account
+
+A share link (`/s/:token`) — the same pattern designed for Danny's NFP approval.
+Scoped to `SKU`, `GTIN` or `BOTH`, expiring, revocable, and it records who
+submitted. **Scope is enforced in the POST handler, not in the form**: a `gtin`
+field submitted against a SKU-scoped link is ignored.
+
+Both doors — the signed-in screen and the share link — write through the same
+`applySku` / `applyGtin` functions, so validation can't be bypassed by using the
+other one. A GTIN whose check digit fails is never stored.
+
+---
 
 ## First-boot bootstrap
 
@@ -159,3 +196,8 @@ Phase 2, in the order I'd do them:
   `promisedDate`, `actualReceiptDate`) plus `PromiseLogEntry` for every date
   change. Needs the scorecard view.
 - **PO builder UI** — currently POs are imported, not created in-app.
+- **The eight renames** — four Beef Protein pouches carry Shopify ids in the SKU
+  column, and four plant pouches reuse whey serials 21-24. Both are documented in
+  [docs/06](../docs/06-code-standard.md) with proposed replacements. Deliberately
+  not built: they rewrite live join keys, so they need a decision first, not a
+  deploy.

@@ -57,6 +57,7 @@ push notifications, and an installable phone app.
 | **[03 — The system](docs/03-the-system.md)** | Nine tables, every field, the formulas, the views, the automations worth having. |
 | **[04 — Rollout](docs/04-rollout.md)** | Four weeks. Capture first, catalogue second, transactions third. How this dies and how to stop it. |
 | **[05 — How it works](docs/05-how-it-works.md)** | End-to-end flow. Four real journeys traced with your SKUs, who logs in, automatic vs. you, what a normal week costs. |
+| **[06 — The code standard](docs/06-code-standard.md)** | SKU prefixes, GS1 prefix capacity, how new codes are suggested, and whether the existing 118 should be renumbered. |
 
 ---
 
